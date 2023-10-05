@@ -9,9 +9,10 @@ public class Purchases {
     private final Double QUARTER = .25;
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidCodeInput {
 
         Scanner userInput = new Scanner(System.in);
+
         Purchases currentPurchase = new Purchases();
         String currentChoice = currentPurchase.choice();
 
@@ -34,37 +35,46 @@ public class Purchases {
                return;
 
             case "2":
-                /*  - Show the list of products available and allow the customer to enter
-        a code to select an item.
+
 
             // show available items with prices and location
             // allow the user to input the code for the item
 
-        - If the product code doesn't exist, the vending machine informs the customer and returns them
-        to the Purchase menu.
+                String itemSelected = userInput.nextLine();
 
-            // try -- create exception: InvalidCode -- catch return to purchase menu
+//        - If the product code doesn't exist, the vending machine informs the customer and returns them
+//        to the Purchase menu.
 
-        - If a product is currently sold out, the vending machine informs the customer and returns them to the
-        Purchase menu.
+                try {
+                    
+                } catch (InvalidCodeInput e) {
+                    // return to main menu
+                    System.out.println("Sorry! That code is invalid!");
+                    MainMenu newMain = new MainMenu();
+                }
 
-            // if quantity is 0, tell customer the item is sold out and return to purchase menu
-
-        - If a customer selects a valid product, it's dispensed to the customer.
-        - Dispensing an item prints the item name, cost, and the money
-        remaining. Dispensing also returns a message:
-          - All chip items print "Crunch Crunch, Yum!"
-          - All candy items print "Munch Munch, Yum!"
-          - All drink items print "Glug Glug, Yum!"
-          - All gum items print "Chew Chew, Yum!"
-
-            // valid item dispenses the item and prints the name, cost and money remaining
-            // also displays type message
-
-
-        - After the machine dispenses the product, the machine must update its balance
-        accordingly and return the customer to the Purchase menu.
-            // display remaining balance then return to purchase menu
+//            // try -- create exception: InvalidCode -- catch return to purchase menu
+//
+//        - If a product is currently sold out, the vending machine informs the customer and returns them to the
+//        Purchase menu.
+//
+//            // if quantity is 0, tell customer the item is sold out and return to purchase menu
+//
+//        - If a customer selects a valid product, it's dispensed to the customer.
+//        - Dispensing an item prints the item name, cost, and the money
+//        remaining. Dispensing also returns a message:
+//          - All chip items print "Crunch Crunch, Yum!"
+//          - All candy items print "Munch Munch, Yum!"
+//          - All drink items print "Glug Glug, Yum!"
+//          - All gum items print "Chew Chew, Yum!"
+//
+//            // valid item dispenses the item and prints the name, cost and money remaining
+//            // also displays type message
+//
+//
+//        - After the machine dispenses the product, the machine must update its balance
+//        accordingly and return the customer to the Purchase menu.
+//            // display remaining balance then return to purchase menu
 
                  */
 
