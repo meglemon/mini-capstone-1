@@ -11,6 +11,8 @@ public class Purchases {
 
     public static void main(String[] args) throws InvalidCodeInput {
 
+        Inventory inventory = new Inventory();
+        
         Scanner userInput = new Scanner(System.in);
 
         Purchases currentPurchase = new Purchases();
