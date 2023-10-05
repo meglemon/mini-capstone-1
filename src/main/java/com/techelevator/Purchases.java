@@ -2,7 +2,7 @@ package com.techelevator;
 
 import java.util.Scanner;
 
-public class MainMenu {
+public class Purchases {
 
     public static void main(String[] args) {
 
@@ -16,22 +16,8 @@ public class MainMenu {
 
         String choice = userInput.nextLine();
 
-        switch (choice) {
+        switch ()
 
-            case "1":
-                // display available items from inventory
-                break;
-
-            case "2":
-                // run purchase menu
-
-            case "3":
-                System.out.println("bye bye bye");
-
-            default:
-                System.out.println("Please select 1, 2 or 3!");
-        }
     }
-
 
 }
