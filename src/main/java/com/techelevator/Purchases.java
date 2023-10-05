@@ -17,6 +17,8 @@ public class Purchases {
 
     public static void main(String[] args) throws InvalidCodeInput {
 
+        Inventory inventory = new Inventory();
+        
         Scanner userInput = new Scanner(System.in);
 
         Purchases currentPurchase = new Purchases();
@@ -53,13 +55,13 @@ public class Purchases {
             // show available items with prices and location
             // allow the user to input the code for the item
 
-                String itemSelected = userInput.nextLine();
+
 
 //        - If the product code doesn't exist, the vending machine informs the customer and returns them
 //        to the Purchase menu.
 
                 try {
-
+                    String itemSelected = userInput.nextLine();
                 } catch (InvalidCodeInput e) {
                     // return to main menu
                     System.out.println("Sorry! That code is invalid!");
