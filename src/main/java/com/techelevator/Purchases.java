@@ -18,6 +18,7 @@ public class Purchases {
     public static void main(String[] args) throws InvalidCodeInput {
 
         Inventory inventory = new Inventory();
+        List <Item> inventoryList = inventory.createList();
         
         Scanner userInput = new Scanner(System.in);
 
@@ -25,6 +26,7 @@ public class Purchases {
         String currentChoice = currentPurchase.choice();
 
         Double currentMoneyProvided = 0.00;
+        Double remainingBalance = 0.00;
 
 
         int index = 0;
@@ -39,65 +41,80 @@ public class Purchases {
                    String transactionLogLine = LocalDateTime.now() + "FEED MONEY: $" + currentMoneyProvided + "$" +(totalBalance + currentMoneyProvided);
                    transactionLog.add(index, transactionLogLine);
                    index += 1;
-                   System.out.println("Current Balance: " + currentMoneyProvided);
+                   System.out.println("Current Balance: $" + currentMoneyProvided);
                    System.out.println("Would you like to feed more money? [Y/N] ");
                    if (userInput.nextLine().equalsIgnoreCase("n")) {
                        Purchases nextPurchase = new Purchases();
                        nextPurchase.choice();
-                       return;
+                       break;
                    }
                }
-               return;
+               break;
 
             case "2":
+                System.out.println("Select an item from the list!");
+                inventory.displayItems(inventory);
+                String itemSelected = userInput.nextLine();
 
+                try{
 
-            // show available items with prices and location
-            // allow the user to input the code for the item
+                    if (inventoryList.contains(itemSelected.toString())) {
+                        for (int i = 0; i < inventoryList.size(); i++) {
 
+                            if (inventoryList.get(i).getLocation().equalsIgnoreCase(itemSelected)) {
 
+                                int quantity = inventoryList.get(i).getQuantity();
 
-//        - If the product code doesn't exist, the vending machine informs the customer and returns them
-//        to the Purchase menu.
+                                if (quantity == 0) {
+                                    System.out.println("Sorry! " + inventoryList.get(i).getName() + " is all sold out! Pick another yummy option!");
+                                }
 
-                try {
-                    String itemSelected = userInput.nextLine();
-                } catch (InvalidCodeInput e) {
-                    // return to main menu
+                                if (quantity > 0) {
+                                    inventoryList.get(i).setQuantity(quantity--); // not confident this will change the official inventory
+
+                                    System.out.println(inventoryList.get(i).getName() + " " + inventoryList.get(i).getPrice());
+                                    System.out.println();
+
+                                    if(inventoryList.get(i).getType().equals("Chips")) {
+                                        System.out.println(inventoryList.get(i).getCHIP_MESSAGE());
+                                    } else if (inventoryList.get(i).getType().equals("Candy")) {
+                                        System.out.println(inventoryList.get(i).getCANDY_MESSAGE());
+                                    } else if (inventoryList.get(i).getType().equals("Drink")) {
+                                        System.out.println(inventoryList.get(i).getDRINK_MESSAGE());
+                                    } else if (inventoryList.get(i).getType().equals("Gum")) {
+                                        System.out.println(inventoryList.get(i).getGUM_MESSAGE());
+                                    }
+
+                                    System.out.println();
+                                    double price = inventoryList.get(i).getPrice();
+                                    remainingBalance = currentMoneyProvided - price;
+                                    System.out.println("You have a remaining balance of: $" + remainingBalance);
+                                }
+
+                                Purchases anotherPurchase = new Purchases();
+                                String anotherChoice = anotherPurchase.choice();
+                                break;
+                            }
+                        }
+                    }
+
+                } catch (IllegalArgumentException e) {
                     System.out.println("Sorry! That code is invalid!");
-                    MainMenu newMain = new MainMenu();
+                    Purchases nextPurchase = new Purchases();
+                    nextPurchase.choice();
+                    break;
                 }
 
-//            // try -- create exception: InvalidCode -- catch return to purchase menu
-//
-//        - If a product is currently sold out, the vending machine informs the customer and returns them to the
-//        Purchase menu.
-//
-//            // if quantity is 0, tell customer the item is sold out and return to purchase menu
-//
-//        - If a customer selects a valid product, it's dispensed to the customer.
-//        - Dispensing an item prints the item name, cost, and the money
-//        remaining. Dispensing also returns a message:
-//          - All chip items print "Crunch Crunch, Yum!"
-//          - All candy items print "Munch Munch, Yum!"
-//          - All drink items print "Glug Glug, Yum!"
-//          - All gum items print "Chew Chew, Yum!"
-//
-//            // valid item dispenses the item and prints the name, cost and money remaining
-//            // also displays type message
-//
-//
-//        - After the machine dispenses the product, the machine must update its balance
-//        accordingly and return the customer to the Purchase menu.
-//            // display remaining balance then return to purchase menu
-
-                 */
-
             case "3":
+                System.out.println("Thank you for choosing the yummy vending machine today!");
+                System.out.println("Your change is $" + remainingBalance);
+
                 // completes transaction
                // gives change using nickels, dimes, and quarters
                // (using the smallest amount of coins possible).
                 // The machine's current balance updates to $0 remaining.
+
+                System.out.println("Balance is now $0.00");
 
             default:
                 System.out.println("Please select 1, 2 or 3!");
@@ -109,6 +126,7 @@ public class Purchases {
         Scanner userInput = new Scanner(System.in);
 
         System.out.println("Get some yummies!");
+        System.out.println();
         System.out.println("Choose one of the following:");
         System.out.println("[1] Feed Money");
         System.out.println("[2] Select a yum yum");

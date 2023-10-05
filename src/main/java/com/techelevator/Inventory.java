@@ -9,11 +9,7 @@ import java.util.Scanner;
 
 public class Inventory {
 
-
-
     Scanner fileReader = new Scanner(System.in);
-
-
 
     public  List<Item> inventoryList = new ArrayList<>();
 
