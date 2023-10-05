@@ -8,7 +8,7 @@ public class Item {
     private final String DRINK_MESSAGE = "Glug Glug, Yum!";
     private String name;
     private double price;
-    private int quantity;
+    private int quantity = 5;
     private String type;
     private String location;
 
@@ -17,6 +17,7 @@ public class Item {
     }
 
     public Item(String name, double price, int quantity, String type) {
+        //inventory
         this.name = name;
         this.price = price;
         this.quantity = quantity;
@@ -24,6 +25,7 @@ public class Item {
     }
 
     public Item(String name, double price, int quantity, String type, String location) {
+        //display
         this.name = name;
         this.price = price;
         this.quantity = quantity;
