@@ -4,7 +4,11 @@ import java.util.Scanner;
 
 public class MainMenu {
 
+
+
     public static void main(String[] args) {
+
+        Inventory inventory = new Inventory();
 
         Scanner userInput = new Scanner(System.in);
 
@@ -19,7 +23,17 @@ public class MainMenu {
         switch (choice) {
 
             case "1":
-                // display available items from inventory
+                for (int i = 0; i < inventory.createList().size(); i++) {
+                System.out.print(inventory.createList().get(i).getLocation() + ": ");
+                System.out.print(inventory.createList().get(i).getName());
+                System.out.print(" ($");
+                System.out.printf("%.2f", inventory.createList().get(i).getPrice());
+                    System.out.print(")");
+                if (inventory.createList().get(i).getQuantity() < 1) {
+                        System.out.print("SOLD OUT!");
+                    }
+                System.out.println();
+                }
                 break;
 
             case "2":
