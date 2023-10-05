@@ -59,7 +59,7 @@ public class Purchases {
 //        to the Purchase menu.
 
                 try {
-                    
+
                 } catch (InvalidCodeInput e) {
                     // return to main menu
                     System.out.println("Sorry! That code is invalid!");
