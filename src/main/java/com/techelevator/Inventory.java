@@ -43,8 +43,18 @@ public class Inventory {
 
     }
 
-    public static void main(String[] args) {
-
+    public void displayItems(Inventory inventory){
+        for (int i = 0; i < inventory.createList().size(); i++) {
+            System.out.print(inventory.createList().get(i).getLocation() + ": ");
+            System.out.print(inventory.createList().get(i).getName());
+            System.out.print(" ($");
+            System.out.printf("%.2f", inventory.createList().get(i).getPrice());
+            System.out.print(")");
+            if (inventory.createList().get(i).getQuantity() < 1) {
+                System.out.print("SOLD OUT!");
+            }
+            System.out.println();
+        }
 
     }
 
