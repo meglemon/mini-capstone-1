@@ -1,8 +1,14 @@
 package com.techelevator;
 
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Purchases {
+
+    static List<String> transactionLog = new ArrayList<>();
 
     private final Double NICKLE = .05;
     private final Double DIME = .1;
@@ -20,12 +26,19 @@ public class Purchases {
 
         Double currentMoneyProvided = 0.00;
 
+
+        int index = 0;
+        double totalBalance = 0;
+
         switch (currentChoice) {
             case "1":
                while (!userInput.nextLine().equalsIgnoreCase("n")) {
                    System.out.println("How much money would you like to load?");
                    String moneyFed = userInput.nextLine();
                    currentMoneyProvided += Double.parseDouble(moneyFed);
+                   String transactionLogLine = LocalDateTime.now() + "FEED MONEY: $" + currentMoneyProvided + "$" +(totalBalance + currentMoneyProvided);
+                   transactionLog.add(index, transactionLogLine);
+                   index += 1;
                    System.out.println("Current Balance: " + currentMoneyProvided);
                    System.out.println("Would you like to feed more money? [Y/N] ");
                    if (userInput.nextLine().equalsIgnoreCase("n")) {
