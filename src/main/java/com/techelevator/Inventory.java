@@ -1,42 +1,51 @@
 package com.techelevator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Inventory {
 
-    Scanner inputFile = new Scanner("C:\\Users\\Student\\workspace\\capstones\\java-minicapstonemodule1-team5\\vendingmachine.csv");
+
+
+    Scanner fileReader = new Scanner(System.in);
+
+
 
     public  List<Item> inventoryList = new ArrayList<>();
 
-    private Item getIndividualItem(String line) {
+    public List<Item> createList()  {
+        File inputFile = new File("C:\\Users\\Student\\workspace\\capstones\\java-minicapstonemodule1-team5\\src\\main\\java\\com\\techelevator\\vendingmachine.csv");
+        List<Item> newList = new ArrayList<>();
+        int indexCounter = 0;
+        try (Scanner fileReader = new Scanner(inputFile)) {
+            while (fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                String[] itemProperties = line.split("\\|");
+                String itemLocation = itemProperties[0];
+                String itemName = itemProperties[1];
+                String itemPriceString = itemProperties[2];
+                Double itemPrice = Double.parseDouble(itemPriceString);
+                String itemType = itemProperties[3];
+                Item newItem = new Item(itemName, itemPrice, 5, itemType, itemLocation);
+                newList.add(indexCounter, newItem);
+                indexCounter++;
+            }
+            return newList;
 
-        String[] itemProperties = line.split("//|");
-        String itemLocation = itemProperties[0];
-        String itemName = itemProperties[1].replace("//|", "");
-        String itemPriceString = itemProperties[2].replace("//|", "");
-        Double itemPrice = Double.parseDouble(itemPriceString);
-        String itemType = itemProperties[3].replace("//|", "");
-        Item newItem = new Item(itemName, itemPrice, 5, itemType, itemLocation);
-        return newItem;
-    }
 
-
-    public List<Item> getInventoryList() {
-        while (inputFile.hasNextLine()) {
-            int index = 0;
-            inventoryList.add(index, getIndividualItem(inputFile.nextLine()));
-            index++;
+        } catch (FileNotFoundException e) {
+            return null;
         }
-
-        return inventoryList;
 
     }
 
     public static void main(String[] args) {
-        Inventory inventory = new Inventory();
-        inventory.
+
+
     }
 
 
