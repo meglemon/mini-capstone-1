@@ -6,18 +6,18 @@ import java.util.Scanner;
 
 public class Inventory {
 
-    Scanner inputFile = new Scanner("vendingmachine.csv");
+    Scanner inputFile = new Scanner("C:\\Users\\Student\\workspace\\capstones\\java-minicapstonemodule1-team5\\vendingmachine.csv");
 
-    public static List<Item> inventoryList = new ArrayList<>();
+    public  List<Item> inventoryList = new ArrayList<>();
 
     private Item getIndividualItem(String line) {
 
         String[] itemProperties = line.split("//|");
         String itemLocation = itemProperties[0];
-        String itemName = itemProperties[1].replace("\\|", "");
-        String itemPriceString = itemProperties[2].replace("\\|", "");
+        String itemName = itemProperties[1].replace("//|", "");
+        String itemPriceString = itemProperties[2].replace("//|", "");
         Double itemPrice = Double.parseDouble(itemPriceString);
-        String itemType = itemProperties[3].replace("\\|", "");
+        String itemType = itemProperties[3].replace("//|", "");
         Item newItem = new Item(itemName, itemPrice, 5, itemType, itemLocation);
         return newItem;
     }
@@ -35,12 +35,10 @@ public class Inventory {
     }
 
     public static void main(String[] args) {
-        for (int i = 0; i < inventoryList.size(); i++) {
-            inventoryList.get(i).
+        Inventory inventory = new Inventory();
+        inventory.
+    }
 
-        }
-
-        }
 
 }
 

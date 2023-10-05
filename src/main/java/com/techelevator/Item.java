@@ -12,7 +12,7 @@ public class Item {
     private String type;
     private String location;
 
-    
+
     public Item() {
     }
 
@@ -33,4 +33,59 @@ public class Item {
         this.location = location;
     }
 
+    public String getGUM_MESSAGE() {
+        return GUM_MESSAGE;
+    }
+
+    public String getCANDY_MESSAGE() {
+        return CANDY_MESSAGE;
+    }
+
+    public String getCHIP_MESSAGE() {
+        return CHIP_MESSAGE;
+    }
+
+    public String getDRINK_MESSAGE() {
+        return DRINK_MESSAGE;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }
