@@ -40,11 +40,9 @@ public class Inventory {
             }
             return newList;
 
-
         } catch (FileNotFoundException e) {
             return null;
         }
-
     }
 
 
@@ -62,10 +60,9 @@ public class Inventory {
             }
             System.out.println();
         }
-
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // can we delete this?
         Inventory inventory = new Inventory();
         inventory.displayItems(inventory);
     }
