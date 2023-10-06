@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
@@ -21,8 +22,7 @@ public class Purchases {
     public static void main(String[] args) throws InvalidCodeInput {
 
         Inventory inventory = new Inventory();
-        List <Item> inventoryList = inventory.getInventoryList();
-        
+
         Scanner userInput = new Scanner(System.in);
 
         Purchases currentPurchase = new Purchases();
@@ -60,7 +60,8 @@ public class Purchases {
                 String itemSelected = userInput.nextLine();
 
                 try{
-
+                    List<Item> inventoryList;
+                    inventoryList = inventory.createList();
                     if (inventoryList.contains(itemSelected.toString())) {
                         for (int i = 0; i < inventoryList.size(); i++) {
 

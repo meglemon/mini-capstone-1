@@ -12,6 +12,8 @@ public class Item {
     private String type;
     private String location;
 
+    private int totalSold;
+
 
     public Item() {
     }
@@ -19,6 +21,7 @@ public class Item {
     public Item(String name, double price) {
         this.name = name;
         this.price = price;
+        this.totalSold = 0;
     }
 
     public Item(String name, double price, int quantity, String type) {
@@ -90,6 +93,13 @@ public class Item {
         return location;
     }
 
+    public int getTotalSold() {
+        return totalSold;
+    }
+
+    public void setTotalSold(int quantitySold) {
+        this.totalSold = quantitySold;
+    }
     public void setLocation(String location) {
         this.location = location;
     }
