@@ -172,31 +172,50 @@ public class Purchases {
         index += 1;
 
         int changeDollars = (int)(totalBalance);
-        System.out.println("Your change is $" + changeDollars);
+        System.out.print("Your change is " + changeDollars + "dollars ");
 
         Double QUARTER = .25;
         if (totalBalance % changeDollars != 0) {
             totalBalance -= changeDollars;
             int quarterChange = (int) (totalBalance / QUARTER);
             totalBalance -= (quarterChange * QUARTER);
-            System.out.print("& " + quarterChange + "quarters");
+            if (quarterChange != 0) {
+                if (quarterChange == 1){
+                    System.out.print(" & " + quarterChange + " quarter");
+                } else {
+                    System.out.print(" & " + quarterChange + " quarters");
+                }
+            }
         }
 
         Double DIME = .1;
         if (totalBalance % QUARTER != 0) {
             int dimeChange = (int) (totalBalance / DIME);
             totalBalance -= (dimeChange * DIME);
-            System.out.print("& " + dimeChange + "dimes");
+            if (dimeChange != 0) {
+                if (dimeChange == 1){
+                    System.out.print(" & " + dimeChange + " dime");
+                } else {
+                    System.out.print(" & " + dimeChange + " dimes");
+                }
+            }
         }
 
         if (totalBalance % DIME != 0) {
             Double NICKLE = .05;
             int nickelChange = (int) (totalBalance / NICKLE);
             totalBalance -= (nickelChange * DIME);
-            System.out.print("& " + nickelChange + "nickels");
+            if (nickelChange != 0) {
+                if (nickelChange == 1) {
+                    System.out.print(" & " + nickelChange + " nickel");
+                } else {
+                    System.out.print(" & " + nickelChange + " nickels");
+                }
+            }
         }
-
+        System.out.println();
         System.out.println("Balance is now $0.00");
+        System.out.println();
     }
 
 }
