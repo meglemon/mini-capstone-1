@@ -13,6 +13,10 @@ public class Inventory {
 
     public  List<Item> inventoryList = new ArrayList<>();
 
+    public List<Item> getInventoryList() {
+        return inventoryList;
+    }
+
     public List<Item> createList()  {
         File inputFile = new File("C:\\Users\\Student\\workspace\\capstones\\java-minicapstonemodule1-team5\\src\\main\\java\\com\\techelevator\\vendingmachine.csv");
         List<Item> newList = new ArrayList<>();
