@@ -31,9 +31,9 @@ public class MainMenu {
                 default:
                     System.out.println("Please select 1, 2 or 3!");
                     mainMenu.mainChoice();
+                    break;
 
             }
-
         }
     }
 
