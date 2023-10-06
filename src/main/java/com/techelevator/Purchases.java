@@ -12,7 +12,7 @@ public class Purchases {
     static List<Item> dailySalesReport = new ArrayList<>();
     private final Scanner userInput = new Scanner(System.in);
     private final Inventory inventory = new Inventory();
-    private double totalBalance = 0;
+    private double totalBalance;
     private int index;
 
     public double getTotalBalance() {
@@ -40,28 +40,30 @@ public class Purchases {
 
     public void runPurchaseMenu () {
 
-        Purchases run = new Purchases();
-        run.choice();
-        String currentChoice = run.choice();
-        int option = Integer.parseInt(currentChoice);
-        int transIndex = 0;
+        boolean isThree = false;
 
+        while (!isThree) {
+            Purchases run = new Purchases();
+            String currentChoice = run.choice();
+            int option = Integer.parseInt(currentChoice);
 
-        switch (option) {
-            case 1:
-                run.feedMoney();
-                break;
+            switch (option) {
+                case 1:
+                    run.feedMoney();
+                    break;
 
-            case 2:
-                run.selectItem();
-                break;
+                case 2:
+                    run.selectItem();
+                    break;
 
-            case 3:
-                finishTransaction();
-                break;
+                case 3:
+                    finishTransaction();
+                    isThree = true;
+                    break;
 
-            default:
-                System.out.println("Please select 1, 2 or 3!");
+                default:
+                    System.out.println("Please select 1, 2 or 3!");
+            }
         }
 
 
@@ -82,13 +84,11 @@ public class Purchases {
 
     public void feedMoney() {
 
-        int index = 0;
-
         do {
             System.out.println("How much money would you like to load?");
             String moneyFed = userInput.nextLine();
             double currentMoneyProvided = Double.parseDouble(moneyFed);
-            totalBalance += currentMoneyProvided;
+            setTotalBalance(getTotalBalance() + currentMoneyProvided);
 
 //            String transactionLogLine = LocalDateTime.now() + "FEED MONEY: $" + currentMoneyProvided + "$" + (totalBalance);
 //             transactionLog.add(transIndex, transactionLogLine);
@@ -100,30 +100,25 @@ public class Purchases {
 
         } while (!userInput.nextLine().equalsIgnoreCase("n"));
 
-//        if (userInput.nextLine().equalsIgnoreCase("n")) {
-//            run.choice();
-//        }
     }
 
     public void selectItem() {
 
-        List <Item> inventoryList = inventory.getInventoryList();
-
         System.out.println("Select an item from the list!");
+        System.out.println();
         inventory.displayItems(inventory); // display inventory
         String itemSelected = userInput.nextLine(); // customer selects an item
-
+        //totalBalance = getTotalBalance();
 
         try {
-            if (inventoryList.contains(itemSelected)) {
-                for (int i = 0; i < inventoryList.size(); i++) {
-                    if (inventoryList.get(i).getLocation().equalsIgnoreCase(itemSelected)) {
-                        int quantity = inventoryList.get(i).getQuantity();
-                        double price = inventoryList.get(i).getPrice();
-                        String name = inventoryList.get(i).getName();
-                        String type = inventoryList.get(i).getType();
+                for (int i = 0; i < inventory.getInventoryList().size(); i++) {
+                    if (inventory.getInventoryList().get(i).getLocation().equalsIgnoreCase(itemSelected)) {
+                        int quantity = inventory.getInventoryList().get(i).getQuantity();
+                        double price = inventory.getInventoryList().get(i).getPrice();
+                        String name = inventory.getInventoryList().get(i).getName();
+                        String type = inventory.getInventoryList().get(i).getType();
 
-                        if (price < totalBalance) {
+                        if (price > getTotalBalance()) {
                             System.out.println("Insufficient funds for that item. Sorry!");
                             System.out.println("Select another item or return to purchase menu to deposit more money.");
 
@@ -131,33 +126,32 @@ public class Purchases {
                             System.out.println("Sorry! " + name + " is all sold out! Pick another yummy option!");
 
                         } else if (quantity > 0) {
-                            inventoryList.get(i).setQuantity(quantity - 1);
+                            inventory.getInventoryList().get(i).setQuantity(quantity - 1);
 
                             System.out.println(name + " " + price);
                             System.out.println();
 
                             if (type.equals("Chips")) {
-                                System.out.println(inventoryList.get(i).getCHIP_MESSAGE());
+                                System.out.println(inventory.getInventoryList().get(i).getCHIP_MESSAGE());
                             } else if (type.equals("Candy")) {
-                                System.out.println(inventoryList.get(i).getCANDY_MESSAGE());
+                                System.out.println(inventory.getInventoryList().get(i).getCANDY_MESSAGE());
                             } else if (type.equals("Drink")) {
-                                System.out.println(inventoryList.get(i).getDRINK_MESSAGE());
+                                System.out.println(inventory.getInventoryList().get(i).getDRINK_MESSAGE());
                             } else if (type.equals("Gum")) {
-                                System.out.println(inventoryList.get(i).getGUM_MESSAGE());
+                                System.out.println(inventory.getInventoryList().get(i).getGUM_MESSAGE());
                             }
 
                             System.out.println();
                             totalBalance -= price;
                             System.out.println("You have a remaining balance of: $" + totalBalance);
-                            String transactionLogLine = LocalDateTime.now() + inventoryList.get(i).getName() + inventoryList.get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance - price);
+                            String transactionLogLine = LocalDateTime.now() + inventory.getInventoryList().get(i).getName() + inventory.getInventoryList().get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance - price);
                             transactionLog.add(index, transactionLogLine);
                             index += 1;
-                            Item item = new Item(inventoryList.get(i).getName(), price);
+                            Item item = new Item(inventory.getInventoryList().get(i).getName(), price);
                             dailySalesReport.add(item);
 
                         }
                     }
-                }
             }
 
         } catch (IllegalArgumentException e) {
