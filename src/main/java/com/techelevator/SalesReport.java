@@ -66,7 +66,7 @@ public class SalesReport {
                 String itemPriceString = itemProperties[2];
                 Double itemPrice = Double.parseDouble(itemPriceString);
                 Item newItem = new Item(itemName, itemPrice);
-//                pastSales.put(newItem, price),
+              //  pastSales.put(newItem,)
             }
             return pastSales;
 

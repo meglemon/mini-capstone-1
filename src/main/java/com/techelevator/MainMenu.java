@@ -12,20 +12,21 @@ public class MainMenu {
         Inventory inventory = new Inventory();
 
         MainMenu mainMenu = new MainMenu();
-        mainMenu.mainChoice();
+        int option = Integer.parseInt(mainMenu.mainChoice());
 
-        switch (mainMenu.mainChoice()) {
+        switch (option) {
 
-            case "1":
+            case 1:
                 inventory.displayItems(inventory);
 
                 break;
 
-            case "2":
+            case 2:
                 Purchases purchases = new Purchases();
+                purchases.choice();
                 break;
 
-            case "3":
+            case 3:
                 System.out.println("bye bye bye");
                 break;
 

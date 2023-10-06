@@ -21,7 +21,7 @@ public class Purchases {
     public static void main(String[] args) throws InvalidCodeInput {
 
         Inventory inventory = new Inventory();
-        List <Item> inventoryList = inventory.createList();
+        List <Item> inventoryList = inventory.getInventoryList();
         
         Scanner userInput = new Scanner(System.in);
 
@@ -37,7 +37,7 @@ public class Purchases {
 
         switch (currentChoice) {
             case "1":
-               while (!userInput.nextLine().equalsIgnoreCase("n")) {
+               while ( userInput.nextLine().equalsIgnoreCase("y")) {
                    System.out.println("How much money would you like to load?");
                    String moneyFed = userInput.nextLine();
                    currentMoneyProvided += Double.parseDouble(moneyFed);
@@ -71,6 +71,8 @@ public class Purchases {
                                 if (quantity == 0) {
                                     System.out.println("Sorry! " + inventoryList.get(i).getName() + " is all sold out! Pick another yummy option!");
                                 }
+
+                                // if price is too high
 
                                 if (quantity > 0) {
                                     inventoryList.get(i).setQuantity(quantity - 1); // not confident this will change the official inventory
@@ -145,8 +147,7 @@ public class Purchases {
         System.out.println("[2] Select a yum yum");
         System.out.println("[3] Finish up & getcha change");
 
-        String choice = userInput.nextLine();
-        return choice;
+        return userInput.nextLine();
     }
 
 
