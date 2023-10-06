@@ -114,12 +114,14 @@ public class Purchases {
         System.out.println();
         inventory.displayItems(inventory); // display inventory
         String itemSelected = userInput.nextLine(); // customer selects an item
-
+        boolean haveIFoundAnItem = false;
         while (true) {
 
             for (int i = 0; i < inventory.getInventoryList().size(); i++) {
 
                 if (inventory.getInventoryList().get(i).getLocation().equalsIgnoreCase(itemSelected)) {
+                    haveIFoundAnItem = true;
+
                     int quantity = inventory.getInventoryList().get(i).getQuantity();
                     double price = inventory.getInventoryList().get(i).getPrice();
                     String name = inventory.getInventoryList().get(i).getName();
@@ -157,7 +159,7 @@ public class Purchases {
                             totalBalance -= price;
                             System.out.println("You have a remaining balance of: $" + totalBalance);
 
-                            String transactionLogLine = formattedDate + " " + name + " " + location + " $" + df.format(price) + " $" + df.format(totalBalance);
+                            String transactionLogLine = formattedDate + " " + name + " " + inventory.getInventoryList().get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance);
                             transactionLog.add(getIndex(), transactionLogLine);
                             setIndex(getIndex() + 1);
 
@@ -166,14 +168,16 @@ public class Purchases {
                             dailySalesReport.add(item);
 
                         }
-                    }
-                } else {
-                    System.out.println("Sorry! That code is invalid!");
-                    break;
+
                 }
-                break;
+
             }
 
+            if (!haveIFoundAnItem) {
+                System.out.println("Sorry! That code is invalid!");
+            } else {
+                break;
+            }
         }
     }
 

@@ -62,12 +62,6 @@ public class Inventory {
         }
     }
 
-    public static void main(String[] args) { // can we delete this?
-        Inventory inventory = new Inventory();
-        inventory.displayItems(inventory);
-    }
-
-
 }
 
 
