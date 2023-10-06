@@ -41,7 +41,6 @@ public class Purchases {
     public void runPurchaseMenu () {
 
         Purchases run = new Purchases();
-        run.choice();
         String currentChoice = run.choice();
         int option = Integer.parseInt(currentChoice);
         int transIndex = 0;
@@ -115,7 +114,6 @@ public class Purchases {
 
 
         try {
-            if (inventoryList.contains(itemSelected)) {
                 for (int i = 0; i < inventoryList.size(); i++) {
                     if (inventoryList.get(i).getLocation().equalsIgnoreCase(itemSelected)) {
                         int quantity = inventoryList.get(i).getQuantity();
@@ -158,13 +156,12 @@ public class Purchases {
                         }
                     }
                 }
-            }
 
         } catch (IllegalArgumentException e) {
             System.out.println("Sorry! That code is invalid!");
             Purchases nextPurchase = new Purchases();
             nextPurchase.choice();
-            
+
         }
     }
 
