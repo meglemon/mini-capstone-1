@@ -30,6 +30,7 @@ public class MainMenu {
                     break;
 
                 case 4:
+                    // read sales Report
 
 
 

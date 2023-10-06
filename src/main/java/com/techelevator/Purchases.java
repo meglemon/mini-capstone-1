@@ -114,39 +114,44 @@ public class Purchases {
         System.out.println();
         inventory.displayItems(inventory); // display inventory
         String itemSelected = userInput.nextLine(); // customer selects an item
-        //totalBalance = getTotalBalance();
 
-        try {
-                for (int i = 0; i < inventory.getInventoryList().size(); i++) {
-                    if (inventory.getInventoryList().get(i).getLocation().equalsIgnoreCase(itemSelected)) {
-                        int quantity = inventory.getInventoryList().get(i).getQuantity();
-                        double price = inventory.getInventoryList().get(i).getPrice();
-                        String name = inventory.getInventoryList().get(i).getName();
-                        String type = inventory.getInventoryList().get(i).getType();
-                        String location = inventory.getInventoryList().get(i).getLocation();
+        while (true) {
 
-                        if (price > getTotalBalance()) {
-                            System.out.println("Insufficient funds for that item. Sorry!");
-                            System.out.println("Select another item or return to purchase menu to deposit more money.");
+            for (int i = 0; i < inventory.getInventoryList().size(); i++) {
 
-                        } else if (quantity == 0) {
-                            System.out.println("Sorry! " + name + " is all sold out! Pick another yummy option!");
+                if (inventory.getInventoryList().get(i).getLocation().equalsIgnoreCase(itemSelected)) {
+                    int quantity = inventory.getInventoryList().get(i).getQuantity();
+                    double price = inventory.getInventoryList().get(i).getPrice();
+                    String name = inventory.getInventoryList().get(i).getName();
+                    String type = inventory.getInventoryList().get(i).getType();
 
-                        } else if (quantity > 0) {
-                            inventory.getInventoryList().get(i).setQuantity(quantity - 1);
+                    if (price > getTotalBalance()) {
+                        System.out.println("Insufficient funds for that item. Sorry!");
+                        System.out.println("Select another item or return to purchase menu to deposit more money.");
 
-                            System.out.println(name + " " + price);
-                            System.out.println();
+                    } else if (quantity == 0) {
+                        System.out.println("Sorry! " + name + " is all sold out! Pick another yummy option!");
 
-                            if (type.equals("Chips")) {
+                    } else if (quantity > 0) {
+                        inventory.getInventoryList().get(i).setQuantity(quantity - 1);
+
+                        System.out.println(name + " " + price);
+                        System.out.println();
+
+                        switch (type) {
+                            case "Chips":
                                 System.out.println(inventory.getInventoryList().get(i).getCHIP_MESSAGE());
-                            } else if (type.equals("Candy")) {
+                                break;
+                            case "Candy":
                                 System.out.println(inventory.getInventoryList().get(i).getCANDY_MESSAGE());
-                            } else if (type.equals("Drink")) {
+                                break;
+                            case "Drink":
                                 System.out.println(inventory.getInventoryList().get(i).getDRINK_MESSAGE());
-                            } else if (type.equals("Gum")) {
+                                break;
+                            case "Gum":
                                 System.out.println(inventory.getInventoryList().get(i).getGUM_MESSAGE());
-                            }
+                                break;
+                        }
 
                             System.out.println();
                             totalBalance -= price;
@@ -162,15 +167,16 @@ public class Purchases {
 
                         }
                     }
+                } else {
+                    System.out.println("Sorry! That code is invalid!");
+                    break;
+                }
+                break;
             }
-
-        } catch (IllegalArgumentException e) {
-            System.out.println("Sorry! That code is invalid!");
-            Purchases nextPurchase = new Purchases();
-            nextPurchase.choice();
 
         }
     }
+
 
     public void finishTransaction () {
 
@@ -186,7 +192,7 @@ public class Purchases {
         int changeDollars = (int)(totalBalance);
         System.out.print("Your change is " + changeDollars + "dollars ");
 
-        Double QUARTER = .25;
+        double QUARTER = .25;
         if (totalBalance % changeDollars != 0) {
             totalBalance -= changeDollars;
             int quarterChange = (int) (totalBalance / QUARTER);
@@ -200,7 +206,7 @@ public class Purchases {
             }
         }
 
-        Double DIME = .1;
+        double DIME = .1;
         if (totalBalance % QUARTER != 0) {
             int dimeChange = (int) (totalBalance / DIME);
             totalBalance -= (dimeChange * DIME);
@@ -214,7 +220,7 @@ public class Purchases {
         }
 
         if (totalBalance % DIME != 0) {
-            Double NICKLE = .05;
+            double NICKLE = .05;
             int nickelChange = (int) (totalBalance / NICKLE);
             totalBalance -= (nickelChange * DIME);
             if (nickelChange != 0) {

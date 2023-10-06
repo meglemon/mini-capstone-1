@@ -9,25 +9,37 @@ import static com.techelevator.Purchases.dailySalesReport;
 
 public class SalesReport {
 
-
     Map<Item, Integer> dailySalesMap = new HashMap<>();
-
     List<Item> dailySalesList = new ArrayList<>();
 
-    private Map<Item, Integer> currentSalesMap (List<Item> dailySalesList) {
-        List<Item> list = new ArrayList<>();
+    public Map<Item, Integer> getDailySalesMap() {
+        return dailySalesMap;
+    }
+
+    public void setDailySalesMap(Map<Item, Integer> dailySalesMap) {
+        this.dailySalesMap = dailySalesMap;
+    }
+
+    public List<Item> getDailySalesList() {
+        return dailySalesList;
+    }
+
+    public void setDailySalesList(List<Item> dailySalesList) {
+        this.dailySalesList = dailySalesList;
+    }
+
+    private Map<Item, Integer> currentSalesMap(List<Item> dailySalesList) { // this is returning currentSalesMap?
+        List<Item> list = new ArrayList<>();  // what is happening with this list? Can we delete it?
         for (int i = 0; i < dailySalesReport.size(); i++) {
             dailySalesList.add(dailySalesReport.get(i));
         }
         for (Item sale : dailySalesList) {
-            if (dailySalesMap.containsKey(sale)){
+            if (dailySalesMap.containsKey(sale)) {
                 int updatedSold = dailySalesMap.get(sale) + 1;
                 dailySalesMap.put(sale, updatedSold);
-            }
-            else {
+            } else {
                 dailySalesMap.put(sale, 1);
             }
-
         }
         return dailySalesMap;
     }
@@ -44,12 +56,10 @@ public class SalesReport {
                 totalSales += totalSold;
                 String line = name + "|" + quantitySold + "|" + unitPrice;
                 printerWriter.println(line);
-
             }
         } catch (FileNotFoundException e) {
+            System.out.println("File not found! Please write to a valid file.");
         }
-
-
         return salesData;
     }
 
@@ -66,17 +76,14 @@ public class SalesReport {
                 String itemPriceString = itemProperties[2];
                 Double itemPrice = Double.parseDouble(itemPriceString);
                 Item newItem = new Item(itemName, itemPrice);
-              //  pastSales.put(newItem,)
+                //  pastSales.put(newItem,)
             }
-            return pastSales;
-
 
         } catch (FileNotFoundException e) {
-            return null;
+            System.out.println("File path to read from not found! Please enter a valid file.");
         }
+        return pastSales;
     }
-
-
 
     public File dailySalesToFile(Map<Item, Integer> dailySalesMap) {
         File dailySalesReport = new File("src/main/java/com/techelevator/SalesReport.txt");
@@ -91,15 +98,14 @@ public class SalesReport {
                 String line = name + ": " + quantitySold + " @ " + unitPrice + " = $" + totalSold;
                 printerWriter.println(line);
 
-
             }
         } catch (FileNotFoundException e) {
+            System.out.println("File not found! Please write to a valid file.");
         }
-
 
         return dailySalesReport;
     }
 
-    }
+}
 
 
