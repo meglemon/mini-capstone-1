@@ -17,9 +17,14 @@ public class Inventory {
         return inventoryList;
     }
 
+    public void setInventoryList(List<Item> inventoryList) {
+        this.inventoryList = inventoryList;
+    }
+
     public List<Item> createList()  {
-        File inputFile = new File("C:\\Users\\Student\\workspace\\capstones\\java-minicapstonemodule1-team5\\src\\main\\java\\com\\techelevator\\vendingmachine.csv");
+        File inputFile = new File("src/main/java/com/techelevator/vendingmachine.csv");
         int indexCounter = 0;
+        List<Item> newList = new ArrayList<>();
         try (Scanner fileReader = new Scanner(inputFile)) {
             while (fileReader.hasNextLine()) {
                 String line = fileReader.nextLine();
@@ -30,10 +35,11 @@ public class Inventory {
                 Double itemPrice = Double.parseDouble(itemPriceString);
                 String itemType = itemProperties[3];
                 Item newItem = new Item(itemName, itemPrice, 5, itemType, itemLocation);
-                inventoryList.add(indexCounter, newItem);
+                newList.add(indexCounter, newItem);
                 indexCounter++;
             }
-            return inventoryList;
+            return newList;
+
 
         } catch (FileNotFoundException e) {
             return null;
@@ -41,7 +47,10 @@ public class Inventory {
 
     }
 
+
+
     public void displayItems(Inventory inventory){
+        setInventoryList(inventory.createList());
         for (int i = 0; i < inventoryList.size(); i++) {
             System.out.print(inventoryList.get(i).getLocation() + ": ");
             System.out.print(inventoryList.get(i).getName());
@@ -54,6 +63,11 @@ public class Inventory {
             System.out.println();
         }
 
+    }
+
+    public static void main(String[] args) {
+        Inventory inventory = new Inventory();
+        inventory.displayItems(inventory);
     }
 
 

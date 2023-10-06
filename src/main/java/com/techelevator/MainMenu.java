@@ -9,31 +9,37 @@ public class MainMenu {
 
     public static void main(String[] args) {
 
-        Inventory inventory = new Inventory();
+        while (true) {
+            MainMenu mainMenu = new MainMenu();
+            int option = Integer.parseInt(mainMenu.mainChoice());
+            Inventory inventory = new Inventory();
 
-        MainMenu mainMenu = new MainMenu();
-        int option = Integer.parseInt(mainMenu.mainChoice());
 
-        switch (option) {
+            switch (option) {
 
-            case 1:
-                inventory.displayItems(inventory);
+                case 1:
+                    inventory.displayItems(inventory);
+                    System.out.println();
+                    break;
 
-                break;
+                case 2:
+                    Purchases purchases = new Purchases();
+                    purchases.choice();
+                    mainMenu.mainChoice();
+                    break;
 
-            case 2:
-                Purchases purchases = new Purchases();
-                purchases.choice();
-                break;
+                case 3:
+                    System.out.println("bye bye bye");
+                    System.exit(0);
+                    break;
 
-            case 3:
-                System.out.println("bye bye bye");
-                break;
-
-            default:
-                System.out.println("Please select 1, 2 or 3!");
-                break;
+                default:
+                    System.out.println("Please select 1, 2 or 3!");
+                    mainMenu.mainChoice();
+            }
         }
+
+
     }
 
     public String mainChoice () {
