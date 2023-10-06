@@ -5,15 +5,11 @@ import com.sun.tools.javac.Main;
 import java.util.Scanner;
 
 public class MainMenu {
-
-
     public static void main(String[] args) {
-
         while (true) {
             MainMenu mainMenu = new MainMenu();
             int option = Integer.parseInt(mainMenu.mainChoice());
             Inventory inventory = new Inventory();
-
 
             switch (option) {
 
@@ -24,8 +20,7 @@ public class MainMenu {
 
                 case 2:
                     Purchases purchases = new Purchases();
-                    purchases.choice();
-                    mainMenu.mainChoice();
+                    purchases.runPurchaseMenu();
                     break;
 
                 case 3:
@@ -36,10 +31,10 @@ public class MainMenu {
                 default:
                     System.out.println("Please select 1, 2 or 3!");
                     mainMenu.mainChoice();
+
             }
+
         }
-
-
     }
 
     public String mainChoice () {
