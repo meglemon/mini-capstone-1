@@ -1,14 +1,17 @@
 package com.techelevator;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Purchases {
 
     static List<String> transactionLog = new ArrayList<>();
+
+    static List<Item> dailySalesReport = new ArrayList<>();
+
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     private final Double NICKLE = .05;
     private final Double DIME = .1;
@@ -41,7 +44,7 @@ public class Purchases {
                    String transactionLogLine = LocalDateTime.now() + "FEED MONEY: $" + currentMoneyProvided + "$" +(totalBalance + currentMoneyProvided);
                    transactionLog.add(index, transactionLogLine);
                    index += 1;
-                   System.out.println("Current Balance: $" + currentMoneyProvided);
+                   System.out.println("Current Balance: $" + df.format(currentMoneyProvided));
                    System.out.println("Would you like to feed more money? [Y/N] ");
                    if (userInput.nextLine().equalsIgnoreCase("n")) {
                        Purchases nextPurchase = new Purchases();
@@ -91,6 +94,12 @@ public class Purchases {
                                     double price = inventoryList.get(i).getPrice();
                                     remainingBalance = currentMoneyProvided - price;
                                     System.out.println("You have a remaining balance of: $" + remainingBalance);
+                                    String transactionLogLine = LocalDateTime.now() + inventoryList.get(i).getName() + inventoryList.get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance - price);
+                                    transactionLog.add(index, transactionLogLine);
+                                    index += 1;
+                                    Item item = new Item(inventoryList.get(i).getName(), price);
+                                    dailySalesReport.add(item);
+
                                 }
 
                                 Purchases anotherPurchase = new Purchases();
@@ -108,8 +117,12 @@ public class Purchases {
                 }
 
             case "3":
+
                 System.out.println("Thank you for choosing the yummy vending machine today!");
-                System.out.println("Your change is $" + remainingBalance);
+                System.out.println("Your change is $" + df.format(remainingBalance));
+                String transactionLogLine = LocalDateTime.now() + " GIVE CHANGE: $" + df.format(remainingBalance) + " $" + df.format(totalBalance - remainingBalance);
+                transactionLog.add(index, transactionLogLine);
+                index += 1;
 
                 // completes transaction
                // gives change using nickels, dimes, and quarters
@@ -136,5 +149,7 @@ public class Purchases {
 
         return userInput.nextLine();
     }
+
+
 
 }
