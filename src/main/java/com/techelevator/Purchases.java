@@ -2,12 +2,19 @@ package com.techelevator;
 
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Purchases {
     private static final DecimalFormat df = new DecimalFormat("0.00");
+
+    LocalDateTime now = LocalDateTime.now();
+
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm a");
+    String formattedDate = now.format(dtf);  //17-02-2022
     static List<String> transactionLog = new ArrayList<>();
     static List<Item> dailySalesReport = new ArrayList<>();
     private final Scanner userInput = new Scanner(System.in);
@@ -89,9 +96,9 @@ public class Purchases {
             double currentMoneyProvided = Double.parseDouble(moneyFed);
             setTotalBalance(getTotalBalance() + currentMoneyProvided);
 
-//            String transactionLogLine = LocalDateTime.now() + "FEED MONEY: $" + currentMoneyProvided + "$" + (totalBalance);
-//             transactionLog.add(transIndex, transactionLogLine);
-//             transIndex += 1;
+            String transactionLogLine = formattedDate + " FEED MONEY: $" + df.format(currentMoneyProvided) + " $" + df.format(totalBalance);
+            transactionLog.add(getIndex(), transactionLogLine);
+            setIndex(getIndex() + 1);
 
             System.out.println("You added $" + df.format(currentMoneyProvided));
             System.out.println("Current Balance is now $" + df.format(totalBalance));
@@ -146,16 +153,19 @@ public class Purchases {
                                 break;
                         }
 
-                        System.out.println();
-                        setTotalBalance(totalBalance - price);
-                        System.out.println("You have a remaining balance of: $" + totalBalance);
+                            System.out.println();
+                            totalBalance -= price;
+                            System.out.println("You have a remaining balance of: $" + totalBalance);
 
-                        String transactionLogLine = LocalDateTime.now() + inventory.getInventoryList().get(i).getName() + inventory.getInventoryList().get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance - price);
-                        transactionLog.add(index, transactionLogLine);
-                        index += 1;
+                            String transactionLogLine = formattedDate + " " + name + " " + location + " $" + df.format(price) + " $" + df.format(totalBalance);
+                            transactionLog.add(getIndex(), transactionLogLine);
+                            setIndex(getIndex() + 1);
 
-                        Item item = new Item(inventory.getInventoryList().get(i).getName(), price);
-                        dailySalesReport.add(item);
+
+                            Item item = new Item(inventory.getInventoryList().get(i).getName(), price);
+                            dailySalesReport.add(item);
+
+                        }
                     }
                 } else {
                     System.out.println("Sorry! That code is invalid!");
@@ -173,37 +183,58 @@ public class Purchases {
         System.out.println("Thank you for choosing the yummy vending machine today!");
         System.out.println("Your change is $" + df.format(totalBalance));
 
+
         // save to transaction Log
-        String transactionLogLine = LocalDateTime.now() + " GIVE CHANGE: $" + df.format(totalBalance) + " $" + df.format(0.0);
+        String transactionLogLine = formattedDate + " GIVE CHANGE: $" + df.format(totalBalance) + " $" + df.format(totalBalance - totalBalance);
         transactionLog.add(index, transactionLogLine);
         index += 1;
 
         int changeDollars = (int)(totalBalance);
-        System.out.println("Your change is $" + changeDollars);
+        System.out.print("Your change is " + changeDollars + "dollars ");
 
         double QUARTER = .25;
         if (totalBalance % changeDollars != 0) {
             totalBalance -= changeDollars;
             int quarterChange = (int) (totalBalance / QUARTER);
             totalBalance -= (quarterChange * QUARTER);
-            System.out.print("& " + quarterChange + "quarters");
+            if (quarterChange != 0) {
+                if (quarterChange == 1){
+                    System.out.print(" & " + quarterChange + " quarter");
+                } else {
+                    System.out.print(" & " + quarterChange + " quarters");
+                }
+            }
         }
 
         double DIME = .1;
         if (totalBalance % QUARTER != 0) {
             int dimeChange = (int) (totalBalance / DIME);
             totalBalance -= (dimeChange * DIME);
-            System.out.print("& " + dimeChange + "dimes");
+            if (dimeChange != 0) {
+                if (dimeChange == 1){
+                    System.out.print(" & " + dimeChange + " dime");
+                } else {
+                    System.out.print(" & " + dimeChange + " dimes");
+                }
+            }
         }
 
         if (totalBalance % DIME != 0) {
             double NICKLE = .05;
             int nickelChange = (int) (totalBalance / NICKLE);
             totalBalance -= (nickelChange * DIME);
-            System.out.print("& " + nickelChange + "nickels");
+            if (nickelChange != 0) {
+                if (nickelChange == 1) {
+                    System.out.print(" & " + nickelChange + " nickel");
+                } else {
+                    System.out.print(" & " + nickelChange + " nickels");
+                }
+            }
         }
-
+        System.out.println();
         System.out.println("Balance is now $0.00");
+
+        System.out.println();
     }
 
 }
