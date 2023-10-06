@@ -10,6 +10,7 @@ public class MainMenu {
             MainMenu mainMenu = new MainMenu();
             int option = Integer.parseInt(mainMenu.mainChoice());
             Inventory inventory = new Inventory();
+            TransactionLog log = new TransactionLog();
 
             switch (option) {
 
