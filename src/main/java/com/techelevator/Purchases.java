@@ -57,19 +57,8 @@ public class Purchases {
                 break;
 
             case 3:
-
-                System.out.println("Thank you for choosing the yummy vending machine today!");
-                System.out.println("Your change is $" + df.format(remainingBalance));
-                String transactionLogLine = LocalDateTime.now() + " GIVE CHANGE: $" + df.format(remainingBalance) + " $" + df.format(totalBalance - remainingBalance);
-                transactionLog.add(index, transactionLogLine);
-                index += 1;
-
-                // completes transaction
-                // gives change using nickels, dimes, and quarters
-                // (using the smallest amount of coins possible).
-                // The machine's current balance updates to $0 remaining.
-
-                System.out.println("Balance is now $0.00");
+                finishTransaction();
+                break;
 
             default:
                 System.out.println("Please select 1, 2 or 3!");
@@ -111,9 +100,9 @@ public class Purchases {
 
         } while (!userInput.nextLine().equalsIgnoreCase("n"));
 
-        if (userInput.nextLine().equalsIgnoreCase("n")) {
-            run.choice();
-        }
+//        if (userInput.nextLine().equalsIgnoreCase("n")) {
+//            run.choice();
+//        }
     }
 
     public void selectItem() {
@@ -175,7 +164,7 @@ public class Purchases {
             System.out.println("Sorry! That code is invalid!");
             Purchases nextPurchase = new Purchases();
             nextPurchase.choice();
-            break;
+            
         }
     }
 
