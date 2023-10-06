@@ -21,6 +21,8 @@ public class Purchases {
     private double totalBalance = 0;
 
 
+
+
     public static void main(String[] args) {
 
         Inventory inventory = new Inventory();
@@ -29,6 +31,8 @@ public class Purchases {
 
         String currentChoice = run.choice();
         int option = Integer.parseInt(currentChoice);
+        int transIndex = 0;
+
 
         switch (option) {
             case 1:
@@ -41,10 +45,10 @@ public class Purchases {
             case 3:
 
                 System.out.println("Thank you for choosing the yummy vending machine today!");
-                System.out.println("Your change is $" + df.format(remainingBalance));
-                String transactionLogLine = LocalDateTime.now() + " GIVE CHANGE: $" + df.format(remainingBalance) + " $" + df.format(totalBalance - remainingBalance);
-                transactionLog.add(index, transactionLogLine);
-                index += 1;
+//                System.out.println("Your change is $" + df.format(remainingBalance));
+//                String transactionLogLine = LocalDateTime.now() + " GIVE CHANGE: $" + df.format(remainingBalance) + " $" + df.format(totalBalance - remainingBalance);
+//                transactionLog.add(transIndex, transactionLogLine);
+//                transIndex += 1;
 
                 // completes transaction
                 // gives change using nickels, dimes, and quarters
@@ -75,7 +79,7 @@ public class Purchases {
 
     public void feedMoney() {
 
-        int index = 0;
+
 
         do {
             System.out.println("How much money would you like to load?");
@@ -83,9 +87,9 @@ public class Purchases {
             double currentMoneyProvided = Double.parseDouble(moneyFed);
             totalBalance += currentMoneyProvided;
 
-            String transactionLogLine = LocalDateTime.now() + "FEED MONEY: $" + currentMoneyProvided + "$" + (totalBalance);
-             transactionLog.add(index, transactionLogLine);
-             index += 1;
+//            String transactionLogLine = LocalDateTime.now() + "FEED MONEY: $" + currentMoneyProvided + "$" + (totalBalance);
+//             transactionLog.add(transIndex, transactionLogLine);
+//             transIndex += 1;
 
             System.out.println("You added $" + df.format(currentMoneyProvided));
             System.out.println("Current Balance is now $" + df.format(totalBalance));
@@ -93,9 +97,9 @@ public class Purchases {
 
         } while (!userInput.nextLine().equalsIgnoreCase("n"));
 
-        if (userInput.nextLine().equalsIgnoreCase("n")) {
-            run.choice();
-        }
+//        if (userInput.nextLine().equalsIgnoreCase("n")) {
+//            run.choice();
+//        }
     }
 
     public void selectItem() {
@@ -142,10 +146,10 @@ public class Purchases {
                             totalBalance -= price;
                             System.out.println("You have a remaining balance of: $" + totalBalance);
                             String transactionLogLine = LocalDateTime.now() + inventoryList.get(i).getName() + inventoryList.get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance - price);
-                            transactionLog.add(index, transactionLogLine);
-                            index += 1;
-                            Item item = new Item(inventoryList.get(i).getName(), price);
-                            dailySalesReport.add(item);
+//                            transactionLog.add(index, transactionLogLine);
+//                            index += 1;
+//                            Item item = new Item(inventoryList.get(i).getName(), price);
+//                            dailySalesReport.add(item);
 
                         }
 
@@ -160,7 +164,7 @@ public class Purchases {
             System.out.println("Sorry! That code is invalid!");
             Purchases nextPurchase = new Purchases();
             nextPurchase.choice();
-            break;
+
         }
     }
 
