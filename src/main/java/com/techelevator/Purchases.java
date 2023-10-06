@@ -73,7 +73,7 @@ public class Purchases {
                                 }
 
                                 if (quantity > 0) {
-                                    inventoryList.get(i).setQuantity(inventoryList.get(i).getQuantity() - 1); // not confident this will change the official inventory
+                                    inventoryList.get(i).setQuantity(quantity - 1); // not confident this will change the official inventory
 
                                     System.out.println(inventoryList.get(i).getName() + " " + inventoryList.get(i).getPrice());
                                     System.out.println();
