@@ -157,7 +157,7 @@ public class Purchases {
             System.out.println("Sorry! That code is invalid!");
             Purchases nextPurchase = new Purchases();
             nextPurchase.choice();
-            
+
         }
     }
 
