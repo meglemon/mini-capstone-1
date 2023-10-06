@@ -5,11 +5,20 @@ import com.sun.tools.javac.Main;
 import java.util.Scanner;
 
 public class MainMenu {
+    private Inventory inventory;
+    private Purchases purchases;
+
+    public MainMenu(Inventory inventory, Purchases purchases) {
+        this.inventory = inventory;
+        this.purchases = purchases;
+    }
+
     public static void main(String[] args) {
         while (true) {
             MainMenu mainMenu = new MainMenu();
             int option = Integer.parseInt(mainMenu.mainChoice());
             Inventory inventory = new Inventory();
+            TransactionLog log = new TransactionLog();
 
             switch (option) {
 
@@ -32,7 +41,6 @@ public class MainMenu {
                     // read sales Report
 
 
-
                 default:
                     System.out.println("Please select 1, 2 or 3!");
                     mainMenu.mainChoice();
@@ -42,7 +50,7 @@ public class MainMenu {
         }
     }
 
-    public String mainChoice () {
+    public String mainChoice() {
         Scanner userInput = new Scanner(System.in);
 
         System.out.println("Main Menu");
