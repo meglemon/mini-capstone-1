@@ -2,12 +2,19 @@ package com.techelevator;
 
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Purchases {
     private static final DecimalFormat df = new DecimalFormat("0.00");
+
+    LocalDateTime now = LocalDateTime.now();
+
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm a");
+    String formattedDate = now.format(dtf);  //17-02-2022
     static List<String> transactionLog = new ArrayList<>();
     static List<Item> dailySalesReport = new ArrayList<>();
     private final Scanner userInput = new Scanner(System.in);
@@ -89,9 +96,9 @@ public class Purchases {
             double currentMoneyProvided = Double.parseDouble(moneyFed);
             setTotalBalance(getTotalBalance() + currentMoneyProvided);
 
-//            String transactionLogLine = LocalDateTime.now() + "FEED MONEY: $" + currentMoneyProvided + "$" + (totalBalance);
-//             transactionLog.add(transIndex, transactionLogLine);
-//             transIndex += 1;
+            String transactionLogLine = formattedDate + " FEED MONEY: $" + df.format(currentMoneyProvided) + " $" + df.format(totalBalance);
+            transactionLog.add(getIndex(), transactionLogLine);
+            setIndex(getIndex() + 1);
 
             System.out.println("You added $" + df.format(currentMoneyProvided));
             System.out.println("Current Balance is now $" + df.format(totalBalance));
@@ -116,6 +123,7 @@ public class Purchases {
                         double price = inventory.getInventoryList().get(i).getPrice();
                         String name = inventory.getInventoryList().get(i).getName();
                         String type = inventory.getInventoryList().get(i).getType();
+                        String location = inventory.getInventoryList().get(i).getLocation();
 
                         if (price > getTotalBalance()) {
                             System.out.println("Insufficient funds for that item. Sorry!");
@@ -143,9 +151,12 @@ public class Purchases {
                             System.out.println();
                             totalBalance -= price;
                             System.out.println("You have a remaining balance of: $" + totalBalance);
-                            String transactionLogLine = LocalDateTime.now() + inventory.getInventoryList().get(i).getName() + inventory.getInventoryList().get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance - price);
-                            transactionLog.add(index, transactionLogLine);
-                            index += 1;
+
+                            String transactionLogLine = formattedDate + " " + name + " " + location + " $" + df.format(price) + " $" + df.format(totalBalance);
+                            transactionLog.add(getIndex(), transactionLogLine);
+                            setIndex(getIndex() + 1);
+
+
                             Item item = new Item(inventory.getInventoryList().get(i).getName(), price);
                             dailySalesReport.add(item);
 
@@ -166,8 +177,9 @@ public class Purchases {
         System.out.println("Thank you for choosing the yummy vending machine today!");
         System.out.println("Your change is $" + df.format(totalBalance));
 
+
         // save to transaction Log
-        String transactionLogLine = LocalDateTime.now() + " GIVE CHANGE: $" + df.format(totalBalance) + " $" + df.format(totalBalance - totalBalance);
+        String transactionLogLine = formattedDate + " GIVE CHANGE: $" + df.format(totalBalance) + " $" + df.format(totalBalance - totalBalance);
         transactionLog.add(index, transactionLogLine);
         index += 1;
 
@@ -215,6 +227,7 @@ public class Purchases {
         }
         System.out.println();
         System.out.println("Balance is now $0.00");
+
         System.out.println();
     }
 
