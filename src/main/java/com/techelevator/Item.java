@@ -16,6 +16,11 @@ public class Item {
     public Item() {
     }
 
+    public Item(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
     public Item(String name, double price, int quantity, String type) {
         //inventory
         this.name = name;
