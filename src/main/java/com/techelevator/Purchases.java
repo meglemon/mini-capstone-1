@@ -43,17 +43,16 @@ public class Purchases {
         boolean isThree = false;
 
         while (!isThree) {
-            Purchases run = new Purchases();
-            String currentChoice = run.choice();
+            String currentChoice = choice();
             int option = Integer.parseInt(currentChoice);
 
             switch (option) {
                 case 1:
-                    run.feedMoney();
+                    feedMoney();
                     break;
 
                 case 2:
-                    run.selectItem();
+                    selectItem();
                     break;
 
                 case 3:

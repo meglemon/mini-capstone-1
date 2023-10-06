@@ -28,6 +28,10 @@ public class MainMenu {
                     System.exit(0);
                     break;
 
+                case 4:
+
+
+
                 default:
                     System.out.println("Please select 1, 2 or 3!");
                     mainMenu.mainChoice();
