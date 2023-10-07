@@ -13,12 +13,12 @@ public class Purchases {
 
     LocalDateTime now = LocalDateTime.now();
 
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm a");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm a");
     String formattedDate = now.format(dtf);  //17-02-2022
     private List<String> transactionLog = new ArrayList<>();
     static List<Item> dailySalesReport = new ArrayList<>();
     private final Scanner userInput = new Scanner(System.in);
-    private final Inventory inventory = new Inventory();
+    private Inventory inventory = new Inventory();
     private double totalBalance;
     private int index;
 
@@ -50,30 +50,33 @@ public class Purchases {
     }
 
     public void runPurchaseMenu () {
+        try {
+            boolean isThree = false;
 
-        boolean isThree = false;
+            while (!isThree) {
+                String currentChoice = choice();
+                int option = Integer.parseInt(currentChoice);
 
-        while (!isThree) {
-            String currentChoice = choice();
-            int option = Integer.parseInt(currentChoice);
+                switch (option) {
+                    case 1:
+                        feedMoney();
+                        break;
 
-            switch (option) {
-                case 1:
-                    feedMoney();
-                    break;
+                    case 2:
+                        selectItem();
+                        break;
 
-                case 2:
-                    selectItem();
-                    break;
+                    case 3:
+                        finishTransaction();
+                        isThree = true;
+                        break;
 
-                case 3:
-                    finishTransaction();
-                    isThree = true;
-                    break;
-
-                default:
-                    System.out.println("Please select 1, 2 or 3!");
+                    default:
+                        System.out.println("Please select 1, 2 or 3!");
+                }
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Please select 1, 2 or 3!");
         }
 
 
@@ -93,43 +96,46 @@ public class Purchases {
     }
 
     public void feedMoney() {
+        try {
+            do {
+                System.out.println("How much money would you like to load?");
+                String moneyFed = userInput.nextLine();
+                double currentMoneyProvided = Double.parseDouble(moneyFed);
+                setTotalBalance(getTotalBalance() + currentMoneyProvided);
 
-        do {
-            System.out.println("How much money would you like to load?");
-            String moneyFed = userInput.nextLine();
-            double currentMoneyProvided = Double.parseDouble(moneyFed);
-            setTotalBalance(getTotalBalance() + currentMoneyProvided);
+                String transactionLogLine = formattedDate + " FEED MONEY: $" + df.format(currentMoneyProvided) + " $" + df.format(totalBalance);
+                getTransactionLog().add(getIndex(), transactionLogLine);
+                setIndex(getIndex() + 1);
 
-            String transactionLogLine = formattedDate + " FEED MONEY: $" + df.format(currentMoneyProvided) + " $" + df.format(totalBalance);
-            getTransactionLog().add(getIndex(), transactionLogLine);
-            setIndex(getIndex() + 1);
+                System.out.println("You added $" + df.format(currentMoneyProvided));
+                System.out.println("Current Balance is now $" + df.format(totalBalance));
+                System.out.println("Would you like to add more money? [Y/N]");
 
-            System.out.println("You added $" + df.format(currentMoneyProvided));
-            System.out.println("Current Balance is now $" + df.format(totalBalance));
-            System.out.println("Would you like to add more money? [Y/N]");
-
-        } while (!userInput.nextLine().equalsIgnoreCase("n"));
+            } while (!userInput.nextLine().equalsIgnoreCase("n"));
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid cash amount!");
+        }
 
     }
 
     public void selectItem() {
-
-        System.out.println("Select an item from the list!");
-        System.out.println();
-        inventory.displayItems(inventory); // display inventory
-        String itemSelected = userInput.nextLine(); // customer selects an item
         boolean haveIFoundAnItem = false;
-        while (true) {
+        while (haveIFoundAnItem == false) {
+            System.out.println("Select an item from the list!");
+            System.out.println();
+            getInventory().displayItems(); // display inventory
+            String itemSelected = userInput.nextLine(); // customer selects an item
 
-            for (int i = 0; i < inventory.getInventoryList().size(); i++) {
 
-                if (inventory.getInventoryList().get(i).getLocation().equalsIgnoreCase(itemSelected)) {
+            for (int i = 0; i < getInventory().getInventoryList().size(); i++) {
+
+                if (getInventory().getInventoryList().get(i).getLocation().equalsIgnoreCase(itemSelected)) {
                     haveIFoundAnItem = true;
 
-                    int quantity = inventory.getInventoryList().get(i).getQuantity();
-                    double price = inventory.getInventoryList().get(i).getPrice();
-                    String name = inventory.getInventoryList().get(i).getName();
-                    String type = inventory.getInventoryList().get(i).getType();
+                    int quantity = getInventory().getInventoryList().get(i).getQuantity();
+                    double price = getInventory().getInventoryList().get(i).getPrice();
+                    String name = getInventory().getInventoryList().get(i).getName();
+                    String type = getInventory().getInventoryList().get(i).getType();
 
                     if (price > getTotalBalance()) {
                         System.out.println("Insufficient funds for that item. Sorry!");
@@ -139,23 +145,23 @@ public class Purchases {
                         System.out.println("Sorry! " + name + " is all sold out! Pick another yummy option!");
 
                     } else if (quantity > 0) {
-                        inventory.getInventoryList().get(i).setQuantity(quantity - 1);
+                        getInventory().getInventoryList().get(i).setQuantity(quantity - 1);
 
                         System.out.println(name + " " + price);
                         System.out.println();
 
                         switch (type) {
                             case "Chips":
-                                System.out.println(inventory.getInventoryList().get(i).getCHIP_MESSAGE());
+                                System.out.println(getInventory().getInventoryList().get(i).getCHIP_MESSAGE());
                                 break;
                             case "Candy":
-                                System.out.println(inventory.getInventoryList().get(i).getCANDY_MESSAGE());
+                                System.out.println(getInventory().getInventoryList().get(i).getCANDY_MESSAGE());
                                 break;
                             case "Drink":
-                                System.out.println(inventory.getInventoryList().get(i).getDRINK_MESSAGE());
+                                System.out.println(getInventory().getInventoryList().get(i).getDRINK_MESSAGE());
                                 break;
                             case "Gum":
-                                System.out.println(inventory.getInventoryList().get(i).getGUM_MESSAGE());
+                                System.out.println(getInventory().getInventoryList().get(i).getGUM_MESSAGE());
                                 break;
                         }
 
@@ -163,12 +169,12 @@ public class Purchases {
                             totalBalance -= price;
                             System.out.println("You have a remaining balance of: $" + df.format(totalBalance));
 
-                            String transactionLogLine = formattedDate + " " + name + " " + inventory.getInventoryList().get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance);
+                            String transactionLogLine = formattedDate + " " + name + " " + getInventory().getInventoryList().get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance);
                             getTransactionLog().add(getIndex(), transactionLogLine);
                             setIndex(getIndex() + 1);
 
 
-                            Item item = new Item(inventory.getInventoryList().get(i).getName(), price);
+                            Item item = new Item(getInventory().getInventoryList().get(i).getName(), price);
                             dailySalesReport.add(item);
 
                         }

@@ -47,8 +47,8 @@ public class Inventory {
 
 
 
-    public void displayItems(Inventory inventory){
-        setInventoryList(inventory.createList());
+    public void displayItems(){
+        setInventoryList(createList());
         for (int i = 0; i < inventoryList.size(); i++) {
             System.out.print(inventoryList.get(i).getLocation() + ": ");
             System.out.print(inventoryList.get(i).getName());

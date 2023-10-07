@@ -26,7 +26,7 @@ public class MainMenu {
             switch (option) {
 
                 case 1:
-                    inventory.displayItems(inventory);
+                    inventory.displayItems();
                     System.out.println();
                     break;
 
@@ -46,7 +46,6 @@ public class MainMenu {
 
                 default:
                     System.out.println("Please select 1, 2 or 3!");
-                    mainChoice(mainMenu.scanner);
                     break;
 
             }
