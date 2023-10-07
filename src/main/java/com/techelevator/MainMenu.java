@@ -2,23 +2,26 @@ package com.techelevator;
 
 import com.sun.tools.javac.Main;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MainMenu {
     private Inventory inventory;
     private Purchases purchases;
 
-    public MainMenu(Inventory inventory, Purchases purchases) {
+    private TransactionLog transactionLog;
+    private Scanner scanner = new Scanner(System.in);
+
+    public MainMenu(Inventory inventory, Purchases purchases, Scanner scanner, TransactionLog transactionLog) {
         this.inventory = inventory;
         this.purchases = purchases;
+        this.scanner = scanner;
+        this.transactionLog = transactionLog;
     }
 
-    public static void main(String[] args) {
+    public List<String> menu(MainMenu mainMenu) {
         while (true) {
-            MainMenu mainMenu = new MainMenu();
-            int option = Integer.parseInt(mainMenu.mainChoice());
-            Inventory inventory = new Inventory();
-            TransactionLog log = new TransactionLog();
+            int option = Integer.parseInt(mainMenu.mainChoice(mainMenu.scanner));
 
             switch (option) {
 
@@ -28,14 +31,14 @@ public class MainMenu {
                     break;
 
                 case 2:
-                    Purchases purchases = new Purchases();
-                    purchases.runPurchaseMenu();
+                    mainMenu.purchases.runPurchaseMenu();
+                    System.out.println();
                     break;
 
                 case 3:
                     System.out.println("bye bye bye");
-                    System.exit(0);
-                    break;
+                    return purchases.getTransactionLog();
+
 
                 case 4:
                     // read sales Report
@@ -43,15 +46,14 @@ public class MainMenu {
 
                 default:
                     System.out.println("Please select 1, 2 or 3!");
-                    mainMenu.mainChoice();
+                    mainChoice(mainMenu.scanner);
                     break;
 
             }
         }
     }
 
-    public String mainChoice() {
-        Scanner userInput = new Scanner(System.in);
+    public String mainChoice(Scanner scanner) {
 
         System.out.println("Main Menu");
         System.out.println();
@@ -60,7 +62,7 @@ public class MainMenu {
         System.out.println("[2] Purchase something yummy!");
         System.out.println("[3] Exit");
 
-        return userInput.nextLine();
+        return scanner.nextLine();
     }
 
 }

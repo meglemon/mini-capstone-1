@@ -15,7 +15,7 @@ public class Purchases {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm a");
     String formattedDate = now.format(dtf);  //17-02-2022
-    static List<String> transactionLog = new ArrayList<>();
+    private List<String> transactionLog = new ArrayList<>();
     static List<Item> dailySalesReport = new ArrayList<>();
     private final Scanner userInput = new Scanner(System.in);
     private final Inventory inventory = new Inventory();
@@ -40,6 +40,10 @@ public class Purchases {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public List<String> getTransactionLog() {
+        return transactionLog;
     }
 
     public Purchases() {
@@ -97,7 +101,7 @@ public class Purchases {
             setTotalBalance(getTotalBalance() + currentMoneyProvided);
 
             String transactionLogLine = formattedDate + " FEED MONEY: $" + df.format(currentMoneyProvided) + " $" + df.format(totalBalance);
-            transactionLog.add(getIndex(), transactionLogLine);
+            getTransactionLog().add(getIndex(), transactionLogLine);
             setIndex(getIndex() + 1);
 
             System.out.println("You added $" + df.format(currentMoneyProvided));
@@ -157,10 +161,10 @@ public class Purchases {
 
                             System.out.println();
                             totalBalance -= price;
-                            System.out.println("You have a remaining balance of: $" + totalBalance);
+                            System.out.println("You have a remaining balance of: $" + df.format(totalBalance));
 
                             String transactionLogLine = formattedDate + " " + name + " " + inventory.getInventoryList().get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance);
-                            transactionLog.add(getIndex(), transactionLogLine);
+                            getTransactionLog().add(getIndex(), transactionLogLine);
                             setIndex(getIndex() + 1);
 
 
@@ -190,11 +194,15 @@ public class Purchases {
 
         // save to transaction Log
         String transactionLogLine = formattedDate + " GIVE CHANGE: $" + df.format(totalBalance) + " $" + df.format(totalBalance - totalBalance);
-        transactionLog.add(index, transactionLogLine);
+        getTransactionLog().add(getIndex(), transactionLogLine);
         index += 1;
 
         int changeDollars = (int)(totalBalance);
-        System.out.print("Your change is " + changeDollars + "dollars ");
+        if (changeDollars == 1) {
+            System.out.print("Your change is " + changeDollars + " dollar");
+        } else {
+            System.out.print("Your change is " + changeDollars + " dollars");
+        }
 
         double QUARTER = .25;
         if (totalBalance % changeDollars != 0) {
@@ -239,6 +247,7 @@ public class Purchases {
         System.out.println("Balance is now $0.00");
 
         System.out.println();
+
     }
 
 }
