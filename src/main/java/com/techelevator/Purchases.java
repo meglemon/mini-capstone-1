@@ -47,35 +47,36 @@ public class Purchases {
     }
 
     public void runPurchaseMenu (Inventory inventory) {
-        try {
+
             boolean isThree = false;
 
             while (!isThree) {
-                String currentChoice = choice();
-                int option = Integer.parseInt(currentChoice);
+                try {
+                    String currentChoice = choice();
+                    int option = Integer.parseInt(currentChoice);
 
-                switch (option) {
-                    case 1:
-                        feedMoney();
-                        break;
+                    switch (option) {
+                        case 1:
+                            feedMoney();
+                            break;
 
-                    case 2:
-                        selectItem(inventory);
-                        break;
+                        case 2:
+                            selectItem(inventory);
+                            break;
 
-                    case 3:
-                        finishTransaction();
-                        isThree = true;
-                        break;
+                        case 3:
+                            finishTransaction();
+                            isThree = true;
+                            break;
 
-                    default:
-                        System.out.println("Please select 1, 2 or 3!");
+                        default:
+                            System.out.println("Please select 1, 2 or 3!");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Please select 1, 2 or 3!");
+                    continue;
                 }
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Please select 1, 2 or 3!");
-        }
-
 
     }
 
@@ -183,6 +184,7 @@ public class Purchases {
 
             if (!haveIFoundAnItem) {
                 System.out.println("Sorry! That code is invalid!");
+                System.out.println();
             } else {
                 break;
             }

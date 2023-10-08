@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class MainMenu {
     private Inventory inventory;
-    private Purchases purchases;
+    public Purchases purchases;
 
     private TransactionLog transactionLog;
     private Scanner scanner = new Scanner(System.in);
@@ -19,36 +19,42 @@ public class MainMenu {
 
     public List<String> menu(MainMenu mainMenu) {
         List<Item> inventoryList = inventory.createList();
-        while (true) {
-            int option = Integer.parseInt(mainMenu.mainChoice(mainMenu.scanner));
+            while (true) {
+                try {
+                    int option = Integer.parseInt(mainMenu.mainChoice(mainMenu.scanner));
 
-            switch (option) {
+                    switch (option) {
 
-                case 1:
-                    inventory.displayItems();
-                    System.out.println();
-                    break;
+                        case 1:
+                            inventory.displayItems();
+                            System.out.println();
+                            break;
 
-                case 2:
-                    mainMenu.purchases.runPurchaseMenu(inventory);
-                    System.out.println();
-                    break;
+                        case 2:
+                            mainMenu.purchases.runPurchaseMenu(inventory);
+                            System.out.println();
+                            break;
 
-                case 3:
-                    System.out.println("bye bye bye");
-                    return purchases.getTransactionLog();
-
-
-                case 4:
-                    // read sales Report
+                        case 3:
+                            System.out.println("bye bye bye");
+                            return purchases.getTransactionLog();
 
 
-                default:
-                    System.out.println("Please select 1, 2 or 3!");
-                    break;
+                        case 4:
+                            // read sales Report
 
+
+                        default:
+                            System.out.println("Please select 1, 2 or 3!");
+                            break;
+
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Please select 1, 2, or 3!");
+                }
             }
-        }
+
+
     }
 
     public String mainChoice(Scanner scanner) {

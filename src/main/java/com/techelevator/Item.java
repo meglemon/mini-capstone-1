@@ -104,7 +104,4 @@ public class Item {
         this.location = location;
     }
 
-    public void changeQuantity(int purchase) {
-        setQuantity(getQuantity() - 1);
-    }
 }
