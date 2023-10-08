@@ -1,10 +1,7 @@
 package com.techelevator;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -49,7 +46,7 @@ public class Purchases {
     public Purchases() {
     }
 
-    public void runPurchaseMenu () {
+    public void runPurchaseMenu (Inventory inventory) {
         try {
             boolean isThree = false;
 
@@ -63,7 +60,7 @@ public class Purchases {
                         break;
 
                     case 2:
-                        selectItem();
+                        selectItem(inventory);
                         break;
 
                     case 3:
@@ -118,24 +115,24 @@ public class Purchases {
 
     }
 
-    public void selectItem() {
+    public void selectItem(Inventory inventory) {
         boolean haveIFoundAnItem = false;
         while (haveIFoundAnItem == false) {
             System.out.println("Select an item from the list!");
             System.out.println();
-            getInventory().displayItems(); // display inventory
+            inventory.displayItems(); // display inventory
             String itemSelected = userInput.nextLine(); // customer selects an item
 
 
-            for (int i = 0; i < getInventory().getInventoryList().size(); i++) {
+            for (int i = 0; i < inventory.getInventoryList().size(); i++) {
 
-                if (getInventory().getInventoryList().get(i).getLocation().equalsIgnoreCase(itemSelected)) {
+                if (inventory.getInventoryList().get(i).getLocation().equalsIgnoreCase(itemSelected)) {
                     haveIFoundAnItem = true;
 
-                    int quantity = getInventory().getInventoryList().get(i).getQuantity();
-                    double price = getInventory().getInventoryList().get(i).getPrice();
-                    String name = getInventory().getInventoryList().get(i).getName();
-                    String type = getInventory().getInventoryList().get(i).getType();
+                    int quantity = inventory.getInventoryList().get(i).getQuantity();
+                    double price = inventory.getInventoryList().get(i).getPrice();
+                    String name = inventory.getInventoryList().get(i).getName();
+                    String type = inventory.getInventoryList().get(i).getType();
 
                     if (price > getTotalBalance()) {
                         System.out.println("Insufficient funds for that item. Sorry!");
@@ -145,23 +142,24 @@ public class Purchases {
                         System.out.println("Sorry! " + name + " is all sold out! Pick another yummy option!");
 
                     } else if (quantity > 0) {
-                        getInventory().getInventoryList().get(i).setQuantity(quantity - 1);
+                        quantity -= 1;
+                        inventory.getInventoryList().get(i).setQuantity(quantity);
 
                         System.out.println(name + " " + price);
                         System.out.println();
 
                         switch (type) {
                             case "Chips":
-                                System.out.println(getInventory().getInventoryList().get(i).getCHIP_MESSAGE());
+                                System.out.println(inventory.getInventoryList().get(i).getCHIP_MESSAGE());
                                 break;
                             case "Candy":
-                                System.out.println(getInventory().getInventoryList().get(i).getCANDY_MESSAGE());
+                                System.out.println(inventory.getInventoryList().get(i).getCANDY_MESSAGE());
                                 break;
                             case "Drink":
-                                System.out.println(getInventory().getInventoryList().get(i).getDRINK_MESSAGE());
+                                System.out.println(inventory.getInventoryList().get(i).getDRINK_MESSAGE());
                                 break;
                             case "Gum":
-                                System.out.println(getInventory().getInventoryList().get(i).getGUM_MESSAGE());
+                                System.out.println(inventory.getInventoryList().get(i).getGUM_MESSAGE());
                                 break;
                         }
 
@@ -169,12 +167,12 @@ public class Purchases {
                             totalBalance -= price;
                             System.out.println("You have a remaining balance of: $" + df.format(totalBalance));
 
-                            String transactionLogLine = formattedDate + " " + name + " " + getInventory().getInventoryList().get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance);
+                            String transactionLogLine = formattedDate + " " + name + " " + inventory.getInventoryList().get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance);
                             getTransactionLog().add(getIndex(), transactionLogLine);
                             setIndex(getIndex() + 1);
 
 
-                            Item item = new Item(getInventory().getInventoryList().get(i).getName(), price);
+                            Item item = new Item(inventory.getInventoryList().get(i).getName(), price);
                             dailySalesReport.add(item);
 
                         }

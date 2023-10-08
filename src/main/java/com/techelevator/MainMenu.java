@@ -1,7 +1,5 @@
 package com.techelevator;
 
-import com.sun.tools.javac.Main;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,6 +18,7 @@ public class MainMenu {
     }
 
     public List<String> menu(MainMenu mainMenu) {
+        List<Item> inventoryList = inventory.createList();
         while (true) {
             int option = Integer.parseInt(mainMenu.mainChoice(mainMenu.scanner));
 
@@ -31,7 +30,7 @@ public class MainMenu {
                     break;
 
                 case 2:
-                    mainMenu.purchases.runPurchaseMenu();
+                    mainMenu.purchases.runPurchaseMenu(inventory);
                     System.out.println();
                     break;
 

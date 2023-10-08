@@ -103,4 +103,8 @@ public class Item {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public void changeQuantity(int purchase) {
+        setQuantity(getQuantity() - 1);
+    }
 }
