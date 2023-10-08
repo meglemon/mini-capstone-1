@@ -48,8 +48,8 @@ public class Purchases {
         return transactionLog;
     }
 
-    public Purchases() {
-    }
+//    public Purchases() {
+//    }
 
     public void runPurchaseMenu (Inventory inventory) {
 
@@ -113,6 +113,7 @@ public class Purchases {
                 System.out.println("You added $" + df.format(currentMoneyProvided));
                 System.out.println("Current Balance is now $" + df.format(totalBalance));
                 System.out.println("Would you like to add more money? [Y/N]");
+                // TODO: only if "y" or "n" is input
 
             } while (!userInput.nextLine().equalsIgnoreCase("n"));
         } catch (NumberFormatException e) {
@@ -123,7 +124,8 @@ public class Purchases {
 
     public void selectItem(Inventory inventory) {
         boolean haveIFoundAnItem = false;
-        while (haveIFoundAnItem == false) {
+        while (!haveIFoundAnItem) {
+            System.out.println();
             System.out.println("Select an item from the list!");
             System.out.println();
             inventory.displayItems(); // display inventory
@@ -133,7 +135,7 @@ public class Purchases {
             for (int i = 0; i < inventory.getInventoryList().size(); i++) {
 
                 if (inventory.getInventoryList().get(i).getLocation().equalsIgnoreCase(itemSelected)) {
-                    isItemValid = true;
+                    haveIFoundAnItem = true;
 
                     int quantity = inventory.getInventoryList().get(i).getQuantity();
                     double price = inventory.getInventoryList().get(i).getPrice();
@@ -141,18 +143,20 @@ public class Purchases {
                     String type = inventory.getInventoryList().get(i).getType();
 
                     if (price > getTotalBalance()) {
+                        System.out.println();
                         System.out.println("Insufficient funds for that item. Sorry!");
                         System.out.println("Select another item or return to purchase menu to deposit more money.");
 
                     } else if (quantity == 0) {
+                        System.out.println();
                         System.out.println("Sorry! " + name + " is all sold out! Pick another yummy option!");
 
                     } else if (quantity > 0) {
                         quantity -= 1;
                         inventory.getInventoryList().get(i).setQuantity(quantity);
 
-                        System.out.println(name + " " + price);
                         System.out.println();
+                        System.out.println(name + " " + price); // TODO: format price
 
                         switch (type) {
                             case "Chips":
@@ -185,7 +189,7 @@ public class Purchases {
                 }
             }
 
-            if (!isItemValid) {
+            if (!haveIFoundAnItem) {
                 System.out.println("Sorry! That code is invalid!");
                 System.out.println();
             } else {
@@ -197,6 +201,7 @@ public class Purchases {
 
     public void finishTransaction () {
 
+        System.out.println();
         System.out.println("Thank you for choosing the yummy vending machine today!");
         System.out.println("Your change is $" + df.format(totalBalance));
 

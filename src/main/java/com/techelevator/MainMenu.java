@@ -26,6 +26,7 @@ public class MainMenu {
                     switch (option) {
 
                         case 1:
+                            System.out.println();
                             inventory.displayItems();
                             System.out.println();
                             break;
@@ -36,6 +37,7 @@ public class MainMenu {
                             break;
 
                         case 3:
+                            System.out.println();
                             System.out.println("bye bye bye");
                             return purchases.getTransactionLog();
 
