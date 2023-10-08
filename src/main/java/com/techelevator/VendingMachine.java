@@ -6,7 +6,7 @@ public class VendingMachine {
         Inventory inventory = new Inventory();
         TransactionLog log = new TransactionLog();
         SalesReport salesReport = new SalesReport();
-        MainMenu menu = new MainMenu(inventory);
+        MainMenu menu = new MainMenu(Inventory , Purchases);
         menu.mainMenu();
     }
 }

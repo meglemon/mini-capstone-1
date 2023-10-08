@@ -9,10 +9,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Purchases {
+    //  F I E L D S  //
     private static final DecimalFormat df = new DecimalFormat("0.00");
-
     LocalDateTime now = LocalDateTime.now();
-
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm a");
     String formattedDate = now.format(dtf);  //17-02-2022
     static List<String> transactionLog = new ArrayList<>();
@@ -22,6 +21,12 @@ public class Purchases {
     private double totalBalance;
     private int index;
 
+
+    //  C O N S T R U C T O R S  //
+    public Purchases() {
+    }
+
+    //  GETTERS & SETTERS  //
     public double getTotalBalance() {
         return totalBalance;
     }
@@ -42,8 +47,7 @@ public class Purchases {
         return inventory;
     }
 
-    public Purchases() {
-    }
+
 
     public void runPurchaseMenu () {
 
@@ -71,7 +75,6 @@ public class Purchases {
                     System.out.println("Please select 1, 2 or 3!");
             }
         }
-
 
     }
 
@@ -114,13 +117,13 @@ public class Purchases {
         System.out.println();
         inventory.displayItems(inventory); // display inventory
         String itemSelected = userInput.nextLine(); // customer selects an item
-        boolean haveIFoundAnItem = false;
+        boolean isItemValid = false;
         while (true) {
 
             for (int i = 0; i < inventory.getInventoryList().size(); i++) {
 
                 if (inventory.getInventoryList().get(i).getLocation().equalsIgnoreCase(itemSelected)) {
-                    haveIFoundAnItem = true;
+                    isItemValid = true;
 
                     int quantity = inventory.getInventoryList().get(i).getQuantity();
                     double price = inventory.getInventoryList().get(i).getPrice();
@@ -168,12 +171,10 @@ public class Purchases {
                             dailySalesReport.add(item);
 
                         }
-
                 }
-
             }
 
-            if (!haveIFoundAnItem) {
+            if (!isItemValid) {
                 System.out.println("Sorry! That code is invalid!");
             } else {
                 break;

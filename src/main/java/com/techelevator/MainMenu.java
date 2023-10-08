@@ -13,6 +13,10 @@ public class MainMenu {
         this.purchases = purchases;
     }
 
+    public MainMenu() {
+
+    }
+
     public static void main(String[] args) {
         while (true) {
             MainMenu mainMenu = new MainMenu();
@@ -45,7 +49,6 @@ public class MainMenu {
                     System.out.println("Please select 1, 2 or 3!");
                     mainMenu.mainChoice();
                     break;
-
             }
         }
     }
