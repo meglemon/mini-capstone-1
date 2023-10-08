@@ -9,7 +9,7 @@ public class Purchases {
     //  F I E L D S  //
     private static final DecimalFormat df = new DecimalFormat("0.00");
     LocalDateTime now = LocalDateTime.now();
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm a");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm a");
     String formattedDate = now.format(dtf);  //17-02-2022
     private List<String> transactionLog = new ArrayList<>();
     static List<Item> dailySalesReport = new ArrayList<>();
@@ -51,28 +51,31 @@ public class Purchases {
 //    public Purchases() {
 //    }
 
-    public void runPurchaseMenu (Inventory inventory) {
+
+    public int runPurchaseMenu (Inventory inventory) {
 
             boolean isThree = false;
 
+        String currentChoice = choice();
+
             while (!isThree) {
                 try {
-                    String currentChoice = choice();
+
                     int option = Integer.parseInt(currentChoice);
 
                     switch (option) {
                         case 1:
                             feedMoney();
-                            break;
+                            return 1;
 
                         case 2:
                             selectItem(inventory);
-                            break;
+                            return 2;
 
                         case 3:
                             finishTransaction();
                             isThree = true;
-                            break;
+                            return 3;
 
                         default:
                             System.out.println("Please select 1, 2 or 3!");
@@ -82,7 +85,7 @@ public class Purchases {
                     continue;
                 }
             }
-
+        return 0;
     }
 
     public String choice () {
