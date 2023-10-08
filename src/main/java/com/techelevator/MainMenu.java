@@ -1,60 +1,63 @@
 package com.techelevator;
 
-import com.sun.tools.javac.Main;
-
+import java.util.List;
 import java.util.Scanner;
 
 public class MainMenu {
     private Inventory inventory;
-    private Purchases purchases;
+    public Purchases purchases;
 
-    public MainMenu(Inventory inventory, Purchases purchases) {
+    private TransactionLog transactionLog;
+    private Scanner scanner = new Scanner(System.in);
+
+    public MainMenu(Inventory inventory, Purchases purchases, Scanner scanner, TransactionLog transactionLog) {
         this.inventory = inventory;
         this.purchases = purchases;
+        this.scanner = scanner;
+        this.transactionLog = transactionLog;
     }
 
-    public MainMenu() {
+    public List<String> menu(MainMenu mainMenu) {
+        List<Item> inventoryList = inventory.createList();
+            while (true) {
+                try {
+                    int option = Integer.parseInt(mainMenu.mainChoice(mainMenu.scanner));
 
-    }
+                    switch (option) {
 
-    public static void main(String[] args) {
-        while (true) {
-            MainMenu mainMenu = new MainMenu();
-            int option = Integer.parseInt(mainMenu.mainChoice());
-            Inventory inventory = new Inventory();
-            TransactionLog log = new TransactionLog();
+                        case 1:
+                            inventory.displayItems();
+                            System.out.println();
+                            break;
 
-            switch (option) {
+                        case 2:
+                            mainMenu.purchases.runPurchaseMenu(inventory);
+                            System.out.println();
+                            break;
 
-                case 1:
-                    inventory.displayItems(inventory);
-                    System.out.println();
-                    break;
-
-                case 2:
-                    Purchases purchases = new Purchases();
-                    purchases.runPurchaseMenu();
-                    break;
-
-                case 3:
-                    System.out.println("bye bye bye");
-                    System.exit(0);
-                    break;
-
-                case 4:
-                    // read sales Report
+                        case 3:
+                            System.out.println("bye bye bye");
+                            return purchases.getTransactionLog();
 
 
-                default:
-                    System.out.println("Please select 1, 2 or 3!");
-                    mainMenu.mainChoice();
-                    break;
+                        case 4:
+                            // read sales Report
+
+
+                        default:
+                            System.out.println("Please select 1, 2 or 3!");
+                            break;
+
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Please select 1, 2, or 3!");
+                }
             }
-        }
+
+
     }
 
-    public String mainChoice() {
-        Scanner userInput = new Scanner(System.in);
+    public String mainChoice(Scanner scanner) {
 
         System.out.println("Main Menu");
         System.out.println();
@@ -63,7 +66,7 @@ public class MainMenu {
         System.out.println("[2] Purchase something yummy!");
         System.out.println("[3] Exit");
 
-        return userInput.nextLine();
+        return scanner.nextLine();
     }
 
 }

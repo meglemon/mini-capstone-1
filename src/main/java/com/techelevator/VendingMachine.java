@@ -1,12 +1,19 @@
 package com.techelevator;
 
+import com.sun.tools.javac.Main;
+
+import java.util.Scanner;
+
 public class VendingMachine {
 
     public static void main(String[] args) {
+        Purchases purchases = new Purchases();
         Inventory inventory = new Inventory();
-        TransactionLog log = new TransactionLog();
-        SalesReport salesReport = new SalesReport();
-        MainMenu menu = new MainMenu(Inventory , Purchases);
-        menu.mainMenu();
+        Scanner scanner = new Scanner (System.in);
+        TransactionLog transactionLog = new TransactionLog();
+        MainMenu mainMenu = new MainMenu(inventory, purchases, scanner, transactionLog);
+        transactionLog.createLog(mainMenu.menu(mainMenu));
+        System.out.println();
+
     }
 }

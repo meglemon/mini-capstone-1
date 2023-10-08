@@ -1,10 +1,7 @@
 package com.techelevator;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -14,10 +11,10 @@ public class Purchases {
     LocalDateTime now = LocalDateTime.now();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm a");
     String formattedDate = now.format(dtf);  //17-02-2022
-    static List<String> transactionLog = new ArrayList<>();
+    private List<String> transactionLog = new ArrayList<>();
     static List<Item> dailySalesReport = new ArrayList<>();
     private final Scanner userInput = new Scanner(System.in);
-    private final Inventory inventory = new Inventory();
+    private Inventory inventory = new Inventory();
     private double totalBalance;
     private int index;
 
@@ -47,34 +44,44 @@ public class Purchases {
         return inventory;
     }
 
+    public List<String> getTransactionLog() {
+        return transactionLog;
+    }
 
+    public Purchases() {
+    }
 
-    public void runPurchaseMenu () {
+    public void runPurchaseMenu (Inventory inventory) {
 
-        boolean isThree = false;
+            boolean isThree = false;
 
-        while (!isThree) {
-            String currentChoice = choice();
-            int option = Integer.parseInt(currentChoice);
+            while (!isThree) {
+                try {
+                    String currentChoice = choice();
+                    int option = Integer.parseInt(currentChoice);
 
-            switch (option) {
-                case 1:
-                    feedMoney();
-                    break;
+                    switch (option) {
+                        case 1:
+                            feedMoney();
+                            break;
 
-                case 2:
-                    selectItem();
-                    break;
+                        case 2:
+                            selectItem(inventory);
+                            break;
 
-                case 3:
-                    finishTransaction();
-                    isThree = true;
-                    break;
+                        case 3:
+                            finishTransaction();
+                            isThree = true;
+                            break;
 
-                default:
+                        default:
+                            System.out.println("Please select 1, 2 or 3!");
+                    }
+                } catch (NumberFormatException e) {
                     System.out.println("Please select 1, 2 or 3!");
+                    continue;
+                }
             }
-        }
 
     }
 
@@ -92,33 +99,36 @@ public class Purchases {
     }
 
     public void feedMoney() {
+        try {
+            do {
+                System.out.println("How much money would you like to load?");
+                String moneyFed = userInput.nextLine();
+                double currentMoneyProvided = Double.parseDouble(moneyFed);
+                setTotalBalance(getTotalBalance() + currentMoneyProvided);
 
-        do {
-            System.out.println("How much money would you like to load?");
-            String moneyFed = userInput.nextLine();
-            double currentMoneyProvided = Double.parseDouble(moneyFed);
-            setTotalBalance(getTotalBalance() + currentMoneyProvided);
+                String transactionLogLine = formattedDate + " FEED MONEY: $" + df.format(currentMoneyProvided) + " $" + df.format(totalBalance);
+                getTransactionLog().add(getIndex(), transactionLogLine);
+                setIndex(getIndex() + 1);
 
-            String transactionLogLine = formattedDate + " FEED MONEY: $" + df.format(currentMoneyProvided) + " $" + df.format(totalBalance);
-            transactionLog.add(getIndex(), transactionLogLine);
-            setIndex(getIndex() + 1);
+                System.out.println("You added $" + df.format(currentMoneyProvided));
+                System.out.println("Current Balance is now $" + df.format(totalBalance));
+                System.out.println("Would you like to add more money? [Y/N]");
 
-            System.out.println("You added $" + df.format(currentMoneyProvided));
-            System.out.println("Current Balance is now $" + df.format(totalBalance));
-            System.out.println("Would you like to add more money? [Y/N]");
-
-        } while (!userInput.nextLine().equalsIgnoreCase("n"));
+            } while (!userInput.nextLine().equalsIgnoreCase("n"));
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid cash amount!");
+        }
 
     }
 
-    public void selectItem() {
+    public void selectItem(Inventory inventory) {
+        boolean haveIFoundAnItem = false;
+        while (haveIFoundAnItem == false) {
+            System.out.println("Select an item from the list!");
+            System.out.println();
+            inventory.displayItems(); // display inventory
+            String itemSelected = userInput.nextLine(); // customer selects an item
 
-        System.out.println("Select an item from the list!");
-        System.out.println();
-        inventory.displayItems(inventory); // display inventory
-        String itemSelected = userInput.nextLine(); // customer selects an item
-        boolean isItemValid = false;
-        while (true) {
 
             for (int i = 0; i < inventory.getInventoryList().size(); i++) {
 
@@ -138,7 +148,8 @@ public class Purchases {
                         System.out.println("Sorry! " + name + " is all sold out! Pick another yummy option!");
 
                     } else if (quantity > 0) {
-                        inventory.getInventoryList().get(i).setQuantity(quantity - 1);
+                        quantity -= 1;
+                        inventory.getInventoryList().get(i).setQuantity(quantity);
 
                         System.out.println(name + " " + price);
                         System.out.println();
@@ -160,10 +171,10 @@ public class Purchases {
 
                             System.out.println();
                             totalBalance -= price;
-                            System.out.println("You have a remaining balance of: $" + totalBalance);
+                            System.out.println("You have a remaining balance of: $" + df.format(totalBalance));
 
                             String transactionLogLine = formattedDate + " " + name + " " + inventory.getInventoryList().get(i).getLocation() + " $" + df.format(price) + " $" + df.format(totalBalance);
-                            transactionLog.add(getIndex(), transactionLogLine);
+                            getTransactionLog().add(getIndex(), transactionLogLine);
                             setIndex(getIndex() + 1);
 
 
@@ -176,6 +187,7 @@ public class Purchases {
 
             if (!isItemValid) {
                 System.out.println("Sorry! That code is invalid!");
+                System.out.println();
             } else {
                 break;
             }
@@ -191,11 +203,15 @@ public class Purchases {
 
         // save to transaction Log
         String transactionLogLine = formattedDate + " GIVE CHANGE: $" + df.format(totalBalance) + " $" + df.format(totalBalance - totalBalance);
-        transactionLog.add(index, transactionLogLine);
+        getTransactionLog().add(getIndex(), transactionLogLine);
         index += 1;
 
         int changeDollars = (int)(totalBalance);
-        System.out.print("Your change is " + changeDollars + "dollars ");
+        if (changeDollars == 1) {
+            System.out.print("Your change is " + changeDollars + " dollar");
+        } else {
+            System.out.print("Your change is " + changeDollars + " dollars");
+        }
 
         double QUARTER = .25;
         if (totalBalance % changeDollars != 0) {
@@ -240,6 +256,7 @@ public class Purchases {
         System.out.println("Balance is now $0.00");
 
         System.out.println();
+
     }
 
 }
