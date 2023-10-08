@@ -3,14 +3,28 @@ package com.techelevator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import static com.techelevator.Purchases.dailySalesReport;
+import static com.techelevator.Purchases.df;
 
 public class SalesReport {
 
-    Map<Item, Integer> dailySalesMap = new HashMap<>();
-    List<Item> dailySalesList = new ArrayList<>();
+
+    //  F I E L D S  //
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+    private final File dailySalesReport = new File("src/main/java/com/techelevator/SalesReport.txt");
+    private final File salesData = new File("src/main/java/com/techelevator/SalesData.txt");
+    private Map<Item, Integer> dailySalesMap = new HashMap<>();
+    private List<Item> dailySalesList = new ArrayList<>();
+    private final Scanner fileReader = new Scanner(System.in);
+
+
+    //  GETTERS & SETTERS //
+    public File getDailySalesReport() {
+        return dailySalesReport;
+    }
 
     public Map<Item, Integer> getDailySalesMap() {
         return dailySalesMap;
@@ -28,8 +42,16 @@ public class SalesReport {
         this.dailySalesList = dailySalesList;
     }
 
-    private Map<Item, Integer> currentSalesMap(List<Item> dailySalesList) { // this is returning currentSalesMap?
-        List<Item> list = new ArrayList<>();  // what is happening with this list? Can we delete it?
+    public Scanner getFileReader() {
+        return fileReader;
+    }
+
+    public File getSalesData() {
+        return salesData;
+    }
+
+    //  M E T H O D S  //
+    private Map<Item, Integer> currentSalesMap(List<Item> dailySalesList) {   // method to make current sales into a map
         for (int i = 0; i < dailySalesReport.size(); i++) {
             dailySalesList.add(dailySalesReport.get(i));
         }
@@ -44,26 +66,29 @@ public class SalesReport {
         return dailySalesMap;
     }
 
-    public File dailySalesToData(Map<Item, Integer> dailySalesMap) {
-        File salesData = new File("src/main/java/com/techelevator/SalesData.txt");
+
+    public File setDailySalesReport(Map<Item, Integer> dailySalesMap) {    // method to create a file holding current sales
+        // File dailySalesReport = new File("src/main/java/com/techelevator/SalesReport.txt");
         double totalSales = 0.00;
-        try (PrintWriter printerWriter = new PrintWriter(salesData)) {
+        try (PrintWriter printerWriter = new PrintWriter(dailySalesReport)) {
             for (Map.Entry<Item, Integer> purchase : dailySalesMap.entrySet()) {
                 String name = (purchase.getKey().getName());
                 int quantitySold = purchase.getValue();
                 double unitPrice = purchase.getKey().getPrice();
                 double totalSold = (quantitySold * unitPrice);
                 totalSales += totalSold;
-                String line = name + "|" + quantitySold + "|" + unitPrice;
+                String line = name + ": " + quantitySold + " @ " + unitPrice + " = $" + totalSold;
                 printerWriter.println(line);
             }
+
         } catch (FileNotFoundException e) {
             System.out.println("File not found! Please write to a valid file.");
         }
-        return salesData;
+        return dailySalesReport;
     }
 
-    public Map<Item, Integer> extractSalesData() {
+
+    public Map<Item, Integer> extractSalesData() {   //  method to update a map holding all of the sales
         File inputFile = new File("src/main/java/com/techelevator/SalesData.txt");
         Map<Item, Integer> pastSales = new HashMap<>();
         try (Scanner fileReader = new Scanner(inputFile)) {
@@ -76,7 +101,7 @@ public class SalesReport {
                 String itemPriceString = itemProperties[2];
                 Double itemPrice = Double.parseDouble(itemPriceString);
                 Item newItem = new Item(itemName, itemPrice);
-                //  pastSales.put(newItem,)
+                pastSales.put(newItem)
             }
 
         } catch (FileNotFoundException e) {
@@ -85,26 +110,41 @@ public class SalesReport {
         return pastSales;
     }
 
-    public File dailySalesToFile(Map<Item, Integer> dailySalesMap) {
-        File dailySalesReport = new File("src/main/java/com/techelevator/SalesReport.txt");
+    public File setSalesData(Map<Item, Integer> dailySalesMap) { // method to update the master sales report file
         double totalSales = 0.00;
-        try (PrintWriter printerWriter = new PrintWriter(dailySalesReport)) {
+        try (PrintWriter printerWriter = new PrintWriter(salesData)) {
             for (Map.Entry<Item, Integer> purchase : dailySalesMap.entrySet()) {
                 String name = (purchase.getKey().getName());
                 int quantitySold = purchase.getValue();
                 double unitPrice = purchase.getKey().getPrice();
                 double totalSold = (quantitySold * unitPrice);
                 totalSales += totalSold;
-                String line = name + ": " + quantitySold + " @ " + unitPrice + " = $" + totalSold;
+                String line = name + "|" + quantitySold + "|" + unitPrice;
                 printerWriter.println(line);
-
             }
+            printerWriter.println("**TOTAL SALES** $" + df.format(totalSales));
+
         } catch (FileNotFoundException e) {
             System.out.println("File not found! Please write to a valid file.");
         }
-
-        return dailySalesReport;
+        return salesData;
     }
+
+    public void runSalesReport(File dailySalesReport) {  // print out the absolute sales report
+        try (Scanner fileReader = new Scanner(dailySalesReport)) {
+
+            while (fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                System.out.println(line);
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println();
+            System.out.println("File cannot be found.");
+        }
+    }
+
+
 
 }
 

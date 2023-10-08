@@ -6,15 +6,17 @@ import java.util.Scanner;
 public class MainMenu {
     private Inventory inventory;
     public Purchases purchases;
+    private SalesReport salesReport;
 
     private TransactionLog transactionLog;
     private Scanner scanner = new Scanner(System.in);
 
-    public MainMenu(Inventory inventory, Purchases purchases, Scanner scanner, TransactionLog transactionLog) {
+    public MainMenu(Inventory inventory, Purchases purchases, Scanner scanner, TransactionLog transactionLog, SalesReport salesReport) {
         this.inventory = inventory;
         this.purchases = purchases;
         this.scanner = scanner;
         this.transactionLog = transactionLog;
+        this.salesReport = salesReport;
     }
 
     public List<String> menu(MainMenu mainMenu) {
@@ -43,7 +45,9 @@ public class MainMenu {
 
 
                         case 4:
-                            // read sales Report
+                            System.out.println();
+                            System.out.println("Absolute Sales Report");
+                            mainMenu.salesReport.runSalesReport(salesReport.getSalesData());
 
 
                         default:

@@ -48,8 +48,6 @@ public class Purchases {
         return transactionLog;
     }
 
-//    public Purchases() {
-//    }
 
     public void runPurchaseMenu (Inventory inventory) {
 
@@ -79,7 +77,6 @@ public class Purchases {
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Please select 1, 2 or 3!");
-                    continue;
                 }
             }
 
@@ -124,7 +121,7 @@ public class Purchases {
 
     public void selectItem(Inventory inventory) {
         boolean haveIFoundAnItem = false;
-        while (!haveIFoundAnItem) {
+        while (haveIFoundAnItem == false) {
             System.out.println();
             System.out.println("Select an item from the list!");
             System.out.println();

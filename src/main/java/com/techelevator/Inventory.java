@@ -41,6 +41,7 @@ public class Inventory {
             return inventoryList;
 
         } catch (FileNotFoundException e) {
+            System.out.println("File cannot be found.");
             return null;
         }
     }
