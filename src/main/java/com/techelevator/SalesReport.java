@@ -7,7 +7,6 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 import static com.techelevator.Purchases.dailySalesReport;
-import static com.techelevator.Purchases.df;
 
 public class SalesReport {
 
@@ -52,8 +51,8 @@ public class SalesReport {
 
     //  M E T H O D S  //
     private Map<Item, Integer> currentSalesMap(List<Item> dailySalesList) {   // method to make current sales into a map
-        for (int i = 0; i < dailySalesReport.size(); i++) {
-            dailySalesList.add(dailySalesReport.get(i));
+        for (int i = 0; i < dailySalesList.size(); i++) {
+            dailySalesList.add(dailySalesList.get(i));
         }
         for (Item sale : dailySalesList) {
             if (dailySalesMap.containsKey(sale)) {
@@ -101,7 +100,7 @@ public class SalesReport {
                 String itemPriceString = itemProperties[2];
                 Double itemPrice = Double.parseDouble(itemPriceString);
                 Item newItem = new Item(itemName, itemPrice);
-                pastSales.put(newItem)
+                pastSales.put(newItem, itemQuantitySold);
             }
 
         } catch (FileNotFoundException e) {

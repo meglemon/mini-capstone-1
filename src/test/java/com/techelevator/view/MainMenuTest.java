@@ -15,11 +15,12 @@ public class MainMenuTest {
     public void menu_happy_path() {
         Inventory inventory = new Inventory();
         Purchases purchases = new Purchases();
+        SalesReport salesReport = new SalesReport();
         Scanner scanner = new Scanner(System.in);
         TransactionLog transactionLog = new TransactionLog();
 
 
-        MainMenu sut = new MainMenu(inventory, purchases, scanner, transactionLog);
+        MainMenu sut = new MainMenu(inventory, purchases, scanner, transactionLog, salesReport);
 
         int option = 2;
 
@@ -33,10 +34,11 @@ public class MainMenuTest {
         Inventory inventory = new Inventory();
         Purchases purchases = new Purchases();
         Scanner scanner = new Scanner(System.in);
+        SalesReport salesReport = new SalesReport();
         TransactionLog transactionLog = new TransactionLog();
 
 
-        MainMenu sut = new MainMenu(inventory, purchases, scanner, transactionLog);
+        MainMenu sut = new MainMenu(inventory, purchases, scanner, transactionLog, salesReport);
 
         int option = 5;
 
