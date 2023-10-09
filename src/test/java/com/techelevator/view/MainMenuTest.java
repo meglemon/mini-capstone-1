@@ -4,8 +4,6 @@ import com.techelevator.*;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class MainMenuTest {
@@ -47,9 +45,8 @@ public class MainMenuTest {
 
     }
 
-    // insufficient funds
+
     // secret menu
-    // invalid code
-    // sold out
+
 
 }

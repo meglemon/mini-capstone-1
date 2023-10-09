@@ -20,6 +20,13 @@ public class Purchases {
 
 
     //  C O N S T R U C T O R S  //
+
+    public Purchases(Inventory inventory, double totalBalance, int index) {
+        this.inventory = inventory;
+        this.totalBalance = totalBalance;
+        this.index = index;
+    }
+
     public Purchases() {
     }
 
@@ -100,7 +107,7 @@ public class Purchases {
         return userInput.nextLine();
     }
 
-    public void feedMoney() {
+    public double feedMoney() {
         try {
             do {
                 System.out.println("How much money would you like to load?");
@@ -115,14 +122,18 @@ public class Purchases {
                 System.out.println("You added $" + df.format(currentMoneyProvided));
                 System.out.println("Current Balance is now $" + df.format(totalBalance));
                 System.out.println("Would you like to add more money? [Y/N]");
-                // TODO: only if "y" or "n" is input
+                if (!Objects.equals(userInput.nextLine(), "y") || !Objects.equals(userInput.nextLine(), "Y") ||
+                    !Objects.equals(userInput.nextLine(), "n") || !Objects.equals(userInput.nextLine(), "N")){
+                    System.out.println("Incorrect input. Please select [y] or [n]");
+                }
 
             } while (!userInput.nextLine().equalsIgnoreCase("n"));
 
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid cash amount!");
         }
-
+        double feedMoney = getTotalBalance();
+        return feedMoney;
     }
 
     public void selectItem(Inventory inventory) {
@@ -133,7 +144,6 @@ public class Purchases {
             System.out.println();
             inventory.displayItems(); // display inventory
             String itemSelected = userInput.nextLine(); // customer selects an item
-
 
             for (int i = 0; i < inventory.getInventoryList().size(); i++) {
 
