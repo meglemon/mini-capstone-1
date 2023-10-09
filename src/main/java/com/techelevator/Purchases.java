@@ -56,26 +56,26 @@ public class Purchases {
 
             boolean isThree = false;
 
-        String currentChoice = choice();
+
 
             while (!isThree) {
                 try {
-
+                    String currentChoice = choice();
                     int option = Integer.parseInt(currentChoice);
 
                     switch (option) {
                         case 1:
                             feedMoney();
-                            return 1;
+                            break;
 
                         case 2:
                             selectItem(inventory);
-                            return 2;
+                            break;
 
                         case 3:
                             finishTransaction();
                             isThree = true;
-                            return 3;
+                            break;
 
                         default:
                             System.out.println("Please select 1, 2 or 3!");
@@ -118,6 +118,7 @@ public class Purchases {
                 // TODO: only if "y" or "n" is input
 
             } while (!userInput.nextLine().equalsIgnoreCase("n"));
+
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid cash amount!");
         }
