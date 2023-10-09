@@ -13,7 +13,7 @@ public class SalesReport {
     private final File dailySalesReport = new File("src/main/java/com/techelevator/SalesReport.txt");
     private final File salesData = new File("src/main/java/com/techelevator/SalesData.txt");
     private Map<Item, Integer> dailySalesMap = new HashMap<>();
-   private Map<String, Double> pastSales = new HashMap<>();
+    private Map<String, Double> pastSales = new HashMap<>();
     private List<Item> dailySalesList = new ArrayList<>();
     private final Scanner fileReader = new Scanner(System.in);
 
@@ -215,17 +215,24 @@ public class SalesReport {
                 System.out.println(line);
 
             }
-            printerWriter.println();
-            printerWriter.println("************");
-            printerWriter.println("TOTAL SALES: $" + df.format(totalSales));
-            printerWriter.flush();
-            System.out.println();
-            System.out.println("************");
-            System.out.println("TOTAL SALES: $" + df.format(totalSales));
+            printerWriter.println("**TOTAL SALES** $" + df.format(totalSales));
 
 
         } catch (FileNotFoundException e) {
-            {
+            System.out.println("File not found! Please write to a valid file.");
+        }
+        return salesData;
+    }
+
+    public void runSalesReport(File salesData) {  // print out the absolute sales report
+
+        setSalesData(pastSales);
+
+        try (Scanner fileReader = new Scanner(salesData)) {
+
+            while (fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                System.out.println(line);
             }
 
 
