@@ -5,9 +5,8 @@ import java.util.Scanner;
 
 public class MainMenu {
     private Inventory inventory;
-    public Purchases purchases;
+    private Purchases purchases;
     private SalesReport salesReport;
-
     private TransactionLog transactionLog;
     private Scanner scanner = new Scanner(System.in);
 

@@ -12,7 +12,7 @@ public class Purchases {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm a");
     String formattedDate = now.format(dtf);  //17-02-2022
     private List<String> transactionLog = new ArrayList<>();
-    static List<Item> dailySalesReport = new ArrayList<>();
+    static List<Item> currentSalesReport = new ArrayList<>();
     private final Scanner userInput = new Scanner(System.in);
     private Inventory inventory = new Inventory();
     private double totalBalance;
@@ -48,7 +48,9 @@ public class Purchases {
         return transactionLog;
     }
 
-
+    public static List<Item> getCurrentSalesReport() {
+        return currentSalesReport;
+    }
 
     public int runPurchaseMenu (Inventory inventory) {
 
@@ -156,7 +158,7 @@ public class Purchases {
                         inventory.getInventoryList().get(i).setQuantity(quantity);
 
                         System.out.println();
-                        System.out.println(name + " " + price); // TODO: format price
+                        System.out.println(name + " " + df.format(price));
 
                         switch (type) {
                             case "Chips":
@@ -183,7 +185,7 @@ public class Purchases {
 
 
                             Item item = new Item(inventory.getInventoryList().get(i).getName(), price);
-                            dailySalesReport.add(item);
+                            currentSalesReport.add(item);
 
                         }
                 }

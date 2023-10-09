@@ -11,7 +11,7 @@ public class VendingMachine {
         Inventory inventory = new Inventory();
         Scanner scanner = new Scanner (System.in);
         TransactionLog transactionLog = new TransactionLog();
-        MainMenu mainMenu = new MainMenu(inventory, purchases, scanner, transactionLog);
+        MainMenu mainMenu = new MainMenu(inventory, purchases, scanner, transactionLog, salesReport);
         transactionLog.createLog(mainMenu.menu(mainMenu));
         System.out.println();
 

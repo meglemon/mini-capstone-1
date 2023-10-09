@@ -6,9 +6,6 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static com.techelevator.Purchases.dailySalesReport;
-import static com.techelevator.Purchases.df;
-
 public class SalesReport {
 
 
@@ -17,9 +14,13 @@ public class SalesReport {
     private final File dailySalesReport = new File("src/main/java/com/techelevator/SalesReport.txt");
     private final File salesData = new File("src/main/java/com/techelevator/SalesData.txt");
     private Map<Item, Integer> dailySalesMap = new HashMap<>();
+   private Map<String, Double> pastSales = new HashMap<>();
     private List<Item> dailySalesList = new ArrayList<>();
     private final Scanner fileReader = new Scanner(System.in);
 
+    //  CONSTRUCTOR  //
+    public SalesReport() {
+    }
 
     //  GETTERS & SETTERS //
     public File getDailySalesReport() {
@@ -42,6 +43,10 @@ public class SalesReport {
         this.dailySalesList = dailySalesList;
     }
 
+    public java.util.Map<String, Double> getPastSales() {
+        return pastSales;
+    }
+
     public Scanner getFileReader() {
         return fileReader;
     }
@@ -51,9 +56,9 @@ public class SalesReport {
     }
 
     //  M E T H O D S  //
-    private Map<Item, Integer> currentSalesMap(List<Item> dailySalesList) {   // method to make current sales into a map
-        for (int i = 0; i < dailySalesReport.size(); i++) {
-            dailySalesList.add(dailySalesReport.get(i));
+   private Map<Item, Integer> currentSalesMap(List<Item> dailySalesList) {   // method to make current sales into a map
+        for (int i = 0; i < Purchases.getCurrentSalesReport().size(); i++) {
+            dailySalesList.add(Purchases.currentSalesReport.get(i));
         }
         for (Item sale : dailySalesList) {
             if (dailySalesMap.containsKey(sale)) {
@@ -66,9 +71,7 @@ public class SalesReport {
         return dailySalesMap;
     }
 
-
     public File setDailySalesReport(Map<Item, Integer> dailySalesMap) {    // method to create a file holding current sales
-        // File dailySalesReport = new File("src/main/java/com/techelevator/SalesReport.txt");
         double totalSales = 0.00;
         try (PrintWriter printerWriter = new PrintWriter(dailySalesReport)) {
             for (Map.Entry<Item, Integer> purchase : dailySalesMap.entrySet()) {
@@ -77,7 +80,7 @@ public class SalesReport {
                 double unitPrice = purchase.getKey().getPrice();
                 double totalSold = (quantitySold * unitPrice);
                 totalSales += totalSold;
-                String line = name + ": " + quantitySold + " @ " + unitPrice + " = $" + totalSold;
+                String line = name + "|" + quantitySold + "|" + unitPrice + "|" + totalSold;
                 printerWriter.println(line);
             }
 
@@ -87,11 +90,11 @@ public class SalesReport {
         return dailySalesReport;
     }
 
+    public Map<String, Double> setPastSales() {   //  method to update a map holding all of the sales
 
-    public Map<Item, Integer> extractSalesData() {   //  method to update a map holding all of the sales
-        File inputFile = new File("src/main/java/com/techelevator/SalesData.txt");
-        Map<Item, Integer> pastSales = new HashMap<>();
-        try (Scanner fileReader = new Scanner(inputFile)) {
+        setDailySalesReport(dailySalesMap);
+
+        try (Scanner fileReader = new Scanner(dailySalesReport)) {
             while (fileReader.hasNextLine()) {
                 String line = fileReader.nextLine();
                 String[] itemProperties = line.split("\\|");
@@ -100,8 +103,7 @@ public class SalesReport {
                 int itemQuantitySold = Integer.parseInt(itemsSold);
                 String itemPriceString = itemProperties[2];
                 Double itemPrice = Double.parseDouble(itemPriceString);
-                Item newItem = new Item(itemName, itemPrice);
-                pastSales.put(newItem)
+                pastSales.put(itemName, itemPrice);
             }
 
         } catch (FileNotFoundException e) {
@@ -110,7 +112,10 @@ public class SalesReport {
         return pastSales;
     }
 
-    public File setSalesData(Map<Item, Integer> dailySalesMap) { // method to update the master sales report file
+    public File setSalesData(Map<String, Double> pastSales) {   // method to update the master sales report file
+
+       setPastSales();
+
         double totalSales = 0.00;
         try (PrintWriter printerWriter = new PrintWriter(salesData)) {
             for (Map.Entry<Item, Integer> purchase : dailySalesMap.entrySet()) {
@@ -130,8 +135,11 @@ public class SalesReport {
         return salesData;
     }
 
-    public void runSalesReport(File dailySalesReport) {  // print out the absolute sales report
-        try (Scanner fileReader = new Scanner(dailySalesReport)) {
+    public void runSalesReport(File salesData) {  // print out the absolute sales report
+
+        setSalesData(pastSales);
+
+        try (Scanner fileReader = new Scanner(salesData)) {
 
             while (fileReader.hasNextLine()) {
                 String line = fileReader.nextLine();
@@ -143,7 +151,6 @@ public class SalesReport {
             System.out.println("File cannot be found.");
         }
     }
-
 
 
 }
