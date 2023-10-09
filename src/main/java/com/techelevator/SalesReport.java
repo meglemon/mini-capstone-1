@@ -1,7 +1,8 @@
 package com.techelevator;
 
-import java.io.*;
-import java.security.spec.RSAOtherPrimeInfo;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -224,21 +225,21 @@ public class SalesReport {
         return salesData;
     }
 
-    public void runSalesReport(File salesData) {  // print out the absolute sales report
-
-        setSalesData(pastSales);
-
-        try (Scanner fileReader = new Scanner(salesData)) {
-
-            while (fileReader.hasNextLine()) {
-                String line = fileReader.nextLine();
-                System.out.println(line);
-            }
-
-
-        }
-        return outputFile;
-    }
+//    public void runSalesReport(File salesData) {  // print out the absolute sales report
+//
+//        setSalesData(pastSales);
+//
+//        try (Scanner fileReader = new Scanner(salesData)) {
+//
+//            while (fileReader.hasNextLine()) {
+//                String line = fileReader.nextLine();
+//                System.out.println(line);
+//            }
+//
+//
+//        }
+//        return outputFile;
+//    }
 
 
 

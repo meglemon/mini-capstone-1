@@ -9,6 +9,7 @@ public class MainMenu {
     private SalesReport salesReport;
     private TransactionLog transactionLog;
     private Scanner scanner = new Scanner(System.in);
+    private String currentChoice;
 
     public MainMenu(Inventory inventory, Purchases purchases, Scanner scanner, TransactionLog transactionLog, SalesReport salesReport) {
         this.inventory = inventory;
@@ -33,7 +34,7 @@ public class MainMenu {
                             break;
 
                         case 2:
-                            mainMenu.purchases.runPurchaseMenu(inventory);
+                            mainMenu.purchases.runPurchaseMenu(inventory, currentChoice);
                             System.out.println();
                             break;
 

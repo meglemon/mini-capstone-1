@@ -17,6 +17,7 @@ public class Purchases {
     private Inventory inventory = new Inventory();
     private double totalBalance;
     private int index;
+    String moneyFed;
 
 
     //  C O N S T R U C T O R S  //
@@ -59,24 +60,21 @@ public class Purchases {
         return currentSalesReport;
     }
 
-    public int runPurchaseMenu (Inventory inventory) {
-
+    public int runPurchaseMenu (Inventory inventory, String currentChoice) {
             boolean isThree = false;
-
-
 
             while (!isThree) {
                 try {
-                    String currentChoice = choice();
+                    currentChoice = choice();
                     int option = Integer.parseInt(currentChoice);
 
                     switch (option) {
                         case 1:
-                            feedMoney();
+                            feedMoney(moneyFed);
                             break;
 
                         case 2:
-                            selectItem(inventory);
+                            isValidItem(inventory);
                             break;
 
                         case 3:
@@ -107,12 +105,19 @@ public class Purchases {
         return userInput.nextLine();
     }
 
-    public double feedMoney() {
+    public double feedMoney(String moneyFed) {
         try {
             do {
                 System.out.println("How much money would you like to load?");
-                String moneyFed = userInput.nextLine();
+                moneyFed = userInput.nextLine();
                 double currentMoneyProvided = Double.parseDouble(moneyFed);
+
+                if (currentMoneyProvided <= 0) {
+                    System.out.println("Please input a positive amount to continue.");
+                    feedMoney(moneyFed);
+                    return 0;
+                }
+
                 setTotalBalance(getTotalBalance() + currentMoneyProvided);
 
                 String transactionLogLine = formattedDate + " FEED MONEY: $" + df.format(currentMoneyProvided) + " $" + df.format(totalBalance);
@@ -136,9 +141,9 @@ public class Purchases {
         return feedMoney;
     }
 
-    public void selectItem(Inventory inventory) {
-        boolean haveIFoundAnItem = false;
-        while (haveIFoundAnItem == false) {
+    public boolean isValidItem(Inventory inventory) {
+        boolean isValidItem = false;
+        while (isValidItem == false) {
             System.out.println();
             System.out.println("Select an item from the list!");
             System.out.println();
@@ -148,7 +153,7 @@ public class Purchases {
             for (int i = 0; i < inventory.getInventoryList().size(); i++) {
 
                 if (inventory.getInventoryList().get(i).getLocation().equalsIgnoreCase(itemSelected)) {
-                    haveIFoundAnItem = true;
+                    isValidItem = true;
 
                     int quantity = inventory.getInventoryList().get(i).getQuantity();
                     double price = inventory.getInventoryList().get(i).getPrice();
@@ -159,10 +164,12 @@ public class Purchases {
                         System.out.println();
                         System.out.println("Insufficient funds for that item. Sorry!");
                         System.out.println("Select another item or return to purchase menu to deposit more money.");
+                        return false;
 
                     } else if (quantity == 0) {
                         System.out.println();
                         System.out.println("Sorry! " + name + " is all sold out! Pick another yummy option!");
+                        return false;
 
                     } else if (quantity > 0) {
                         quantity -= 1;
@@ -194,23 +201,21 @@ public class Purchases {
                             getTransactionLog().add(getIndex(), transactionLogLine);
                             setIndex(getIndex() + 1);
 
-
-
+                            return true;
                         }
                 }
             }
-
-            if (!haveIFoundAnItem) {
+            if (!isValidItem) {
                 System.out.println("Sorry! That code is invalid!");
                 System.out.println();
             } else {
                 break;
             }
-        }
+        } return false;
     }
 
 
-    public void finishTransaction () {
+    public double finishTransaction() {
 
         System.out.println();
         System.out.println("Thank you for choosing the yummy vending machine today!");
@@ -272,6 +277,8 @@ public class Purchases {
         System.out.println("Balance is now $0.00");
         System.out.println();
 
+        return 0.0;
     }
+
 
 }
