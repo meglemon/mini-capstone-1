@@ -127,10 +127,9 @@ public class Purchases {
                 System.out.println("You added $" + df.format(currentMoneyProvided));
                 System.out.println("Current Balance is now $" + df.format(totalBalance));
                 System.out.println("Would you like to add more money? [Y/N]");
-                if (!Objects.equals(userInput.nextLine(), "y") || !Objects.equals(userInput.nextLine(), "Y") ||
-                    !Objects.equals(userInput.nextLine(), "n") || !Objects.equals(userInput.nextLine(), "N")){
-                    System.out.println("Incorrect input. Please select [y] or [n]");
-                }
+//                if (!Objects.equals(userInput.nextLine(), "y") || !Objects.equals(userInput.nextLine(), "n")) {
+//                    System.out.println("Incorrect input. Please select [y] or [n]");
+//                }
 
             } while (!userInput.nextLine().equalsIgnoreCase("n"));
 
