@@ -43,10 +43,16 @@ public class MainMenu {
                             return purchases.getTransactionLog();
 
 
+
+
                         case 4:
                             System.out.println();
-                            System.out.println("Absolute Sales Report");
-                            mainMenu.salesReport.runSalesReport(salesReport.getSalesData());
+                            System.out.println("Total Sales Report");
+                            salesReport.printSales(salesReport.salesListToMap(salesReport.transactionLogToSalesList()));
+                            System.exit(0);
+                            break;
+
+
 
 
                         default:

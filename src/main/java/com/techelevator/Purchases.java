@@ -185,8 +185,6 @@ public class Purchases {
                             setIndex(getIndex() + 1);
 
 
-                            Item item = new Item(inventory.getInventoryList().get(i).getName(), price);
-                            currentSalesReport.add(item);
 
                         }
                 }
@@ -262,7 +260,6 @@ public class Purchases {
         }
         System.out.println();
         System.out.println("Balance is now $0.00");
-
         System.out.println();
 
     }
