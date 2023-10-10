@@ -23,7 +23,7 @@ public class MainMenuTest {
         int option = 2;
 
         inventory.createList();
-        Assert.assertEquals(inventory.displayItems().get(1).getLocation(), "A2");
+        Assert.assertEquals(inventory.displayItems().get(1).getLocation(), "A2"); // this will always pass
 
     }
 
@@ -41,12 +41,9 @@ public class MainMenuTest {
         int option = 5;
 
         inventory.createList();
-        Assert.assertEquals("","");
+        Assert.assertEquals("",""); // this will always pass
 
     }
-
-
-    // secret menu
 
 
 }
