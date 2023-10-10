@@ -134,7 +134,7 @@ public class Purchases {
 //                    System.out.println("Incorrect input. Please select [y] or [n]");
 //                }
 
-            } while (!answer.equalsIgnoreCase("n"));
+            } while (userInput.nextLine().equalsIgnoreCase("y"));
 
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid cash amount!");
