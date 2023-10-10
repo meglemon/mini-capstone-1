@@ -107,7 +107,9 @@ public class Purchases {
 
     public double feedMoney(String moneyFed) {
         try {
+            String answer = "";
             do {
+
                 System.out.println("How much money would you like to load?");
                 moneyFed = userInput.nextLine();
                 double currentMoneyProvided = Double.parseDouble(moneyFed);
@@ -127,11 +129,12 @@ public class Purchases {
                 System.out.println("You added $" + df.format(currentMoneyProvided));
                 System.out.println("Current Balance is now $" + df.format(totalBalance));
                 System.out.println("Would you like to add more money? [Y/N]");
-//                if (!Objects.equals(userInput.nextLine(), "y") || !Objects.equals(userInput.nextLine(), "n")) {
+                answer = userInput.nextLine();
+//                if (!answer.equalsIgnoreCase("y") || !answer.equalsIgnoreCase("n")) {
 //                    System.out.println("Incorrect input. Please select [y] or [n]");
 //                }
 
-            } while (!userInput.nextLine().equalsIgnoreCase("n"));
+            } while (!answer.equalsIgnoreCase("n"));
 
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid cash amount!");
